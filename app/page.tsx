@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { supabase } from "../lib/supabase";
 
 const slides = [
   {
@@ -73,6 +74,67 @@ const slides = [
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  const [formData, setFormData] = useState({
+  first_name: "",
+  last_name: "",
+  email: "",
+  phone: "",
+  location: "",
+  passport_status: "",
+  move_timeline: "",
+  interest_type: "",
+  moving_with: "",
+  questions: "",
+});
+
+const [loading, setLoading] = useState(false);
+const [successMessage, setSuccessMessage] = useState("");
+
+const handleChange = (
+  e: React.ChangeEvent<
+    HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+  >
+) => {
+  setFormData({
+    ...formData,
+    [e.target.name]: e.target.value,
+  });
+};
+
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  setLoading(true);
+
+  const { error } = await supabase
+    .from("consultation_requests")
+    .insert([formData]);
+
+  if (error) {
+    alert("Something went wrong.");
+    console.error(error);
+  } else {
+    setSuccessMessage(
+      "Your consultation request has been submitted successfully."
+    );
+
+    setFormData({
+      first_name: "",
+      last_name: "",
+      email: "",
+      phone: "",
+      location: "",
+      passport_status: "",
+      move_timeline: "",
+      interest_type: "",
+      moving_with: "",
+      questions: "",
+    });
+  }
+
+  setLoading(false);
+};
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -157,13 +219,175 @@ export default function Home() {
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`h-3 w-3 rounded-full transition-all ${
+              className={`h-3 w-3 rounded-full border transition-all duration-500 ${
                 currentSlide === index
-                  ? "bg-[#0E6B4B] w-10"
-                  : "bg-white/60"
+                  ? index % 3 === 0
+                    ? "bg-[#0E6B4B] border-[#0E6B4B] w-10"
+                    : index % 3 === 1
+                    ? "bg-[#C62828] border-[#C62828] w-10"
+                    : "bg-black border-white w-10"
+                  : "bg-white/60 border-white/30"
               }`}
             />
           ))}
+        </div>
+      </section>
+
+      <section className="bg-[#0B0B0B] px-6 py-24 text-white md:px-12">
+        <div className="mx-auto max-w-7xl">
+
+          <div className="mb-20 max-w-4xl">
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-[#D4AF37]">
+              Luxury Living Potential
+            </p>
+
+            <h3 className="mb-8 text-5xl font-bold leading-tight md:text-7xl">
+              Your USD Goes Further In Kenya
+            </h3>
+
+            <p className="max-w-3xl text-xl leading-10 text-gray-300">
+              Many people are shocked when they realize how far remote income,
+              retirement income, or U.S. dollars can stretch in Kenya. From luxury
+              apartments and oceanfront living to private transportation, dining,
+              domestic help, and unforgettable experiences — your lifestyle options
+              can expand dramatically.
+            </p>
+          </div>
+
+          <div className="mb-16 rounded-[2rem] border border-[#1F1F1F] bg-gradient-to-br from-[#111111] to-[#1B1B1B] p-10 shadow-2xl">
+
+            <div className="mb-10 flex flex-wrap items-center justify-between gap-6">
+              <div>
+                <p className="mb-2 text-sm uppercase tracking-[0.3em] text-[#D4AF37]">
+                  Live Currency Estimate
+                </p>
+
+                <h4 className="text-4xl font-bold">
+                  $1,000 USD
+                </h4>
+              </div>
+
+              <div className="text-right">
+                <p className="mb-2 text-sm uppercase tracking-[0.3em] text-[#D4AF37]">
+                  Estimated Kenyan Value
+                </p>
+
+                <h4 className="text-5xl font-bold text-[#D4AF37]">
+                  KSh 129,000+
+                </h4>
+              </div>
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+
+              <div className="rounded-3xl border border-[#222] bg-black/40 p-6 transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]">
+                <p className="mb-3 text-sm uppercase tracking-[0.2em] text-[#D4AF37]">
+                  Luxury Apartment
+                </p>
+
+                <h5 className="mb-3 text-3xl font-bold">
+                  KSh 45K–85K
+                </h5>
+
+                <p className="leading-7 text-gray-400">
+                  Modern apartments in Nairobi with security, amenities, and upscale finishes.
+                </p>
+              </div>
+
+              <div className="rounded-3xl border border-[#222] bg-black/40 p-6 transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]">
+                <p className="mb-3 text-sm uppercase tracking-[0.2em] text-[#D4AF37]">
+                  Private Driver / Uber
+                </p>
+
+                <h5 className="mb-3 text-3xl font-bold">
+                  Affordable Daily
+                </h5>
+
+                <p className="leading-7 text-gray-400">
+                  Transportation costs are often dramatically lower compared to major U.S. cities.
+                </p>
+              </div>
+
+              <div className="rounded-3xl border border-[#222] bg-black/40 p-6 transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]">
+                <p className="mb-3 text-sm uppercase tracking-[0.2em] text-[#D4AF37]">
+                  Coastal Lifestyle
+                </p>
+
+                <h5 className="mb-3 text-3xl font-bold">
+                  Diani & Mombasa
+                </h5>
+
+                <p className="leading-7 text-gray-400">
+                  Oceanfront experiences, resorts, beaches, and luxury escapes become more accessible.
+                </p>
+              </div>
+
+              <div className="rounded-3xl border border-[#222] bg-black/40 p-6 transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]">
+                <p className="mb-3 text-sm uppercase tracking-[0.2em] text-[#D4AF37]">
+                  Dining & Experiences
+                </p>
+
+                <h5 className="mb-3 text-3xl font-bold">
+                  Elevated Living
+                </h5>
+
+                <p className="leading-7 text-gray-400">
+                  Enjoy restaurants, nightlife, safari experiences, cafés, and entertainment at lower costs.
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+          <div className="grid gap-8 lg:grid-cols-3">
+
+            <div className="rounded-[2rem] border border-[#1E1E1E] bg-[#111111] p-8 transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]">
+              <p className="mb-4 text-sm uppercase tracking-[0.3em] text-[#D4AF37]">
+                Remote Workers
+              </p>
+
+              <h4 className="mb-6 text-3xl font-bold">
+                Keep Your USD Income
+              </h4>
+
+              <p className="leading-8 text-gray-400">
+                Many digital nomads and remote workers discover they can maintain a
+                higher quality lifestyle while working remotely abroad.
+              </p>
+            </div>
+
+            <div className="rounded-[2rem] border border-[#1E1E1E] bg-[#111111] p-8 transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]">
+              <p className="mb-4 text-sm uppercase tracking-[0.3em] text-[#D4AF37]">
+                Families
+              </p>
+
+              <h4 className="mb-6 text-3xl font-bold">
+                Slower, Connected Living
+              </h4>
+
+              <p className="leading-8 text-gray-400">
+                Many families are drawn to stronger community culture, family-centered
+                lifestyles, and new educational opportunities abroad.
+              </p>
+            </div>
+
+            <div className="rounded-[2rem] border border-[#1E1E1E] bg-[#111111] p-8 transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]">
+              <p className="mb-4 text-sm uppercase tracking-[0.3em] text-[#D4AF37]">
+                Entrepreneurs
+              </p>
+
+              <h4 className="mb-6 text-3xl font-bold">
+                Expanding Opportunity
+              </h4>
+
+              <p className="leading-8 text-gray-400">
+                Kenya continues to grow rapidly with expanding infrastructure,
+                international business, tourism, and innovation sectors.
+              </p>
+            </div>
+
+          </div>
+
         </div>
       </section>
 
@@ -171,24 +395,24 @@ export default function Home() {
         id="consultation"
         className="bg-[#F8F6F2] px-6 py-24 md:px-12"
       >
-        <div className="mx-auto grid max-w-7xl gap-16 lg:grid-cols-2">
-          <div>
+        <div className="mx-auto grid max-w-7xl gap-16 lg:grid-cols-[1fr_1.2fr] items-start">
+          <div className="pt-8">
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-[#0E6B4B]">
               Consultation Request
             </p>
 
-            <h3 className="mb-6 text-4xl font-bold leading-tight md:text-5xl">
+            <h3 className="mb-8 max-w-2xl text-5xl font-bold leading-[1.1] md:text-7xl">
               Let’s Talk About Your Move To Kenya
             </h3>
 
-            <p className="max-w-xl text-lg leading-8 text-gray-600">
-              Whether you are exploring a fresh start, planning for your
-              family, or simply looking into your options abroad, we are here
-              to guide you through the early stages of your relocation journey.
+            <p className="max-w-xl text-xl leading-10 text-gray-600">
+              Whether you are exploring a fresh start, planning for your family, or
+              simply looking into your options abroad, we are here to guide you
+              through the early stages of your relocation journey.
             </p>
           </div>
 
-          <div className="rounded-[2rem] border border-gray-100 bg-white p-8 shadow-2xl">
+          <div className="rounded-[2rem] border border-gray-100 bg-white p-8 shadow-2xl lg:mt-6">
             <div className="mb-8 grid gap-4 md:grid-cols-3">
               <div className="rounded-2xl border border-gray-100 bg-[#F8F6F2] p-5">
                 <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[#0E6B4B] text-lg font-bold text-white">
@@ -221,16 +445,22 @@ export default function Home() {
               </div>
             </div>
 
-            <form className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid gap-6 md:grid-cols-2">
                 <input
                   type="text"
+                  name="first_name"
+                  value={formData.first_name}
+                  onChange={handleChange}
                   placeholder="First Name"
                   className="rounded-2xl border border-gray-200 bg-[#FAFAFA] px-5 py-4 outline-none transition focus:border-[#0E6B4B]"
                 />
 
                 <input
                   type="text"
+                  name="last_name"
+                  value={formData.last_name}
+                  onChange={handleChange}
                   placeholder="Last Name"
                   className="rounded-2xl border border-gray-200 bg-[#FAFAFA] px-5 py-4 outline-none transition focus:border-[#0E6B4B]"
                 />
@@ -238,32 +468,51 @@ export default function Home() {
 
               <input
                 type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
                 placeholder="Email Address"
                 className="w-full rounded-2xl border border-gray-200 bg-[#FAFAFA] px-5 py-4 outline-none transition focus:border-[#0E6B4B]"
               />
 
               <input
                 type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
                 placeholder="Phone Number"
                 className="w-full rounded-2xl border border-gray-200 bg-[#FAFAFA] px-5 py-4 outline-none transition focus:border-[#0E6B4B]"
               />
 
               <input
                 type="text"
+                name="location"
+                value={formData.location}
+                onChange={handleChange}
                 placeholder="Current State/Country"
                 className="w-full rounded-2xl border border-gray-200 bg-[#FAFAFA] px-5 py-4 outline-none transition focus:border-[#0E6B4B]"
               />
 
               <div className="grid gap-6 md:grid-cols-2">
-                <select className="w-full rounded-2xl border border-gray-200 bg-[#FAFAFA] px-5 py-4 outline-none transition focus:border-[#0E6B4B]">
-                  <option>Do You Have A Passport?</option>
+                <select
+                  name="passport_status"
+                  value={formData.passport_status}
+                  onChange={handleChange}
+                  className="w-full rounded-2xl border border-gray-200 bg-[#FAFAFA] px-5 py-4 outline-none transition focus:border-[#0E6B4B]"
+                >
+                  <option value="">Do You Have A Passport?</option>
                   <option>Yes</option>
                   <option>No</option>
                   <option>In Progress</option>
                 </select>
 
-                <select className="w-full rounded-2xl border border-gray-200 bg-[#FAFAFA] px-5 py-4 outline-none transition focus:border-[#0E6B4B]">
-                  <option>How Soon Are You Looking To Move?</option>
+                <select
+                  name="move_timeline"
+                  value={formData.move_timeline}
+                  onChange={handleChange}
+                  className="w-full rounded-2xl border border-gray-200 bg-[#FAFAFA] px-5 py-4 outline-none transition focus:border-[#0E6B4B]"
+                >
+                  <option value="">How Soon Are You Looking To Move?</option>
                   <option>0-3 Months</option>
                   <option>3-6 Months</option>
                   <option>6-12 Months</option>
@@ -272,8 +521,13 @@ export default function Home() {
                 </select>
               </div>
 
-              <select className="w-full rounded-2xl border border-gray-200 bg-[#FAFAFA] px-5 py-4 outline-none transition focus:border-[#0E6B4B]">
-                <option>What Best Describes Your Interest?</option>
+              <select
+                name="interest_type"
+                value={formData.interest_type}
+                onChange={handleChange}
+                className="w-full rounded-2xl border border-gray-200 bg-[#FAFAFA] px-5 py-4 outline-none transition focus:border-[#0E6B4B]"
+              >
+                <option value="">What Best Describes Your Interest?</option>
                 <option>Relocating Permanently</option>
                 <option>Exploring Options</option>
                 <option>Remote Work / Digital Nomad</option>
@@ -281,8 +535,13 @@ export default function Home() {
                 <option>Vacation / Scouting Visit</option>
               </select>
 
-              <select className="w-full rounded-2xl border border-gray-200 bg-[#FAFAFA] px-5 py-4 outline-none transition focus:border-[#0E6B4B]">
-                <option>Are You Moving Alone Or With Family?</option>
+              <select
+                name="moving_with"
+                value={formData.moving_with}
+                onChange={handleChange}
+                className="w-full rounded-2xl border border-gray-200 bg-[#FAFAFA] px-5 py-4 outline-none transition focus:border-[#0E6B4B]"
+              >
+                <option value="">Are You Moving Alone Or With Family?</option>
                 <option>Moving Alone</option>
                 <option>With Spouse</option>
                 <option>With Children</option>
@@ -290,6 +549,9 @@ export default function Home() {
               </select>
 
               <textarea
+                name="questions"
+                value={formData.questions}
+                onChange={handleChange}
                 placeholder="What Questions Or Concerns Do You Have About Moving To Kenya?"
                 rows={5}
                 className="w-full rounded-2xl border border-gray-200 bg-[#FAFAFA] px-5 py-4 outline-none transition focus:border-[#0E6B4B]"
@@ -297,10 +559,17 @@ export default function Home() {
 
               <button
                 type="submit"
+                disabled={loading}
                 className="w-full rounded-full bg-[#C62828] px-8 py-5 text-sm font-semibold tracking-wide text-white transition hover:bg-[#a61f1f]"
               >
-                Request Consultation
+                {loading ? "Submitting..." : "Request Consultation"}
               </button>
+
+              {successMessage && (
+                <p className="text-center text-sm font-medium text-green-600">
+                  {successMessage}
+                </p>
+              )}
 
               <p className="text-center text-sm leading-6 text-gray-500">
                 A member of our team will contact you within 24 hours or less
