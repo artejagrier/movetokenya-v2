@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "./lib/supabase";
 
 const slides = [
   {
@@ -90,6 +89,7 @@ export default function Home() {
 
 const [loading, setLoading] = useState(false);
 const [successMessage, setSuccessMessage] = useState("");
+const [showCalendlySuccess, setShowCalendlySuccess] = useState(false);
 
 const handleChange = (
   e: React.ChangeEvent<
@@ -107,14 +107,21 @@ const handleSubmit = async (e: React.FormEvent) => {
 
   setLoading(true);
 
-  const { error } = await supabase
-    .from("consultation_requests")
-    .insert([formData]);
+  try {
+    const response = await fetch("/api/consultation", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
 
-  if (error) {
-    alert("Something went wrong.");
-    console.error(error);
-  } else {
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Something went wrong.");
+    }
+
     setSuccessMessage(
       "Your consultation request has been submitted successfully."
     );
@@ -131,6 +138,9 @@ const handleSubmit = async (e: React.FormEvent) => {
       moving_with: "",
       questions: "",
     });
+  } catch (error) {
+    console.error(error);
+    alert("Something went wrong. Please try again.");
   }
 
   setLoading(false);
@@ -144,9 +154,37 @@ const handleSubmit = async (e: React.FormEvent) => {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get("booked") === "true") {
+      setShowCalendlySuccess(true);
+
+      setTimeout(() => {
+        setShowCalendlySuccess(false);
+      }, 9000);
+    }
+  }, []);
+
   return (
     <main className="bg-white text-[#111111]">
-      <section className="relative h-screen overflow-hidden">
+      {showCalendlySuccess && (
+        <div className="fixed right-6 top-28 z-[100] max-w-md rounded-[2rem] border border-[#D4AF37]/30 bg-white p-6 shadow-[0_25px_80px_rgba(0,0,0,0.18)] backdrop-blur-xl">
+          <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[#0E6B4B] text-2xl text-white">
+            ✓
+          </div>
+          <h4 className="mb-3 text-2xl font-bold text-[#111111]">
+            Consultation Request Received
+          </h4>
+          <p className="leading-8 text-gray-600">
+            Thank you for scheduling your consultation with Move To Kenya.
+            Our team will reach out within 24 hours.
+            Please keep a lookout for your meeting preparation email with additional information and next steps.
+          </p>
+        </div>
+      )}
+      
+      <section className="relative h-screen overflow-hidden pt-24">
         {slides.map((slide, index) => (
           <div
             key={index}
@@ -158,34 +196,65 @@ const handleSubmit = async (e: React.FormEvent) => {
             <div className="absolute inset-0 bg-black/45" />
           </div>
         ))}
+        <nav className="fixed left-0 top-0 z-50 w-full px-6 py-6 md:px-12">
+          <div className="mx-auto flex max-w-7xl items-center justify-between rounded-full border border-white/10 bg-black/40 px-8 py-4 shadow-2xl backdrop-blur-xl">
 
-        <nav className="absolute top-0 z-20 flex w-full items-center justify-between px-6 py-6 md:px-12">
-          <div>
-            <h1 className="text-2xl font-bold tracking-wide text-white">
-              MoveToKenya.org
-            </h1>
-          </div>
+            <div className="flex items-center gap-4">
 
-          <div className="hidden items-center gap-8 text-sm font-medium text-white md:flex">
-            <a href="#about" className="transition hover:text-green-300">
-              About
-            </a>
-            <a href="#why-kenya" className="transition hover:text-green-300">
-              Why Kenya
-            </a>
-            <a href="#consultation" className="transition hover:text-green-300">
-              Consultation
-            </a>
-            <a href="#contact" className="transition hover:text-green-300">
-              Contact
-            </a>
+
+              <div>
+                <h1 className="text-lg font-bold uppercase tracking-[0.25em] text-white md:text-xl">
+                  Move To Kenya
+                </h1>
+
+                <p className="hidden text-xs uppercase tracking-[0.25em] text-gray-400 md:block">
+                  Free Relocation Guidance & Support
+                </p>
+              </div>
+
+            </div>
+
+            <div className="hidden items-center gap-8 text-sm font-medium text-white lg:flex">
+
+              <a
+                href="/"
+                className="transition duration-300 hover:text-[#D4AF37]"
+              >
+                Home
+              </a>
+
+              <a
+                href="#why-kenya"
+                className="transition duration-300 hover:text-[#D4AF37]"
+              >
+                Why Kenya
+              </a>
+
+              <a
+                href="/contact"
+                className="transition duration-300 hover:text-[#D4AF37]"
+              >
+                Contact
+              </a>
+
+              <a
+                href="https://calendly.com/artejagrier-movetokenya/start-your-move-to-kenya"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full bg-gradient-to-r from-[#0E6B4B] to-[#063b29] px-6 py-3 text-sm font-semibold tracking-[0.08em] text-white shadow-lg transition duration-300 hover:scale-105 hover:shadow-2xl"
+              >
+                Book Free Consultation
+              </a>
+
+            </div>
+
           </div>
         </nav>
 
         <div className="relative z-10 flex h-full items-center px-6 md:px-12">
           <div className="max-w-3xl text-white">
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-green-300">
-              Relocation Guidance & Support
+              Free Relocation Guidance & Support
             </p>
 
             <h2 className="mb-6 text-5xl font-bold leading-tight md:text-7xl">
@@ -198,10 +267,12 @@ const handleSubmit = async (e: React.FormEvent) => {
 
             <div className="flex flex-col gap-4 sm:flex-row">
               <a
-                href="#consultation"
+                href="https://calendly.com/artejagrier-movetokenya/start-your-move-to-kenya"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="rounded-full bg-[#0E6B4B] px-8 py-4 text-center text-sm font-semibold text-white transition hover:bg-[#0b573d]"
               >
-                Start Your Journey
+                Book Your Free Consultation
               </a>
 
               <a
@@ -233,7 +304,7 @@ const handleSubmit = async (e: React.FormEvent) => {
         </div>
       </section>
 
-      <section className="bg-[#0B0B0B] px-6 py-24 text-white md:px-12">
+      <section className="bg-white px-6 py-24 text-[#111111] md:px-12">
         <div className="mx-auto max-w-7xl">
 
           <div className="mb-20 max-w-4xl">
@@ -245,7 +316,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               Your USD Goes Further In Kenya
             </h3>
 
-            <p className="max-w-3xl text-xl leading-10 text-gray-300">
+            <p className="max-w-3xl text-xl leading-10 text-gray-600">
               Many people are shocked when they realize how far remote income,
               retirement income, or U.S. dollars can stretch in Kenya. From luxury
               apartments and oceanfront living to private transportation, dining,
@@ -254,7 +325,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             </p>
           </div>
 
-          <div className="mb-16 rounded-[2rem] border border-[#1F1F1F] bg-gradient-to-br from-[#111111] to-[#1B1B1B] p-10 shadow-2xl">
+          <div className="mb-16 rounded-[2rem] border border-gray-200 bg-[#F8F6F2] p-10 shadow-2xl">
 
             <div className="mb-10 flex flex-wrap items-center justify-between gap-6">
               <div>
@@ -280,58 +351,58 @@ const handleSubmit = async (e: React.FormEvent) => {
 
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
 
-              <div className="rounded-3xl border border-[#222] bg-black/40 p-6 transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]">
+              <div className="rounded-3xl border border-[#222] bg-white p-6 transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]">
                 <p className="mb-3 text-sm uppercase tracking-[0.2em] text-[#D4AF37]">
                   Luxury Apartment
                 </p>
 
-                <h5 className="mb-3 text-3xl font-bold">
+                <h5 className="mb-3 text-3xl font-bold text-[#111111]">
                   KSh 45K–85K
                 </h5>
 
-                <p className="leading-7 text-gray-400">
+                <p className="leading-7 text-gray-500">
                   Modern apartments in Nairobi with security, amenities, and upscale finishes.
                 </p>
               </div>
 
-              <div className="rounded-3xl border border-[#222] bg-black/40 p-6 transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]">
+              <div className="rounded-3xl border border-[#222] bg-white p-6 transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]">
                 <p className="mb-3 text-sm uppercase tracking-[0.2em] text-[#D4AF37]">
                   Private Driver / Uber
                 </p>
 
-                <h5 className="mb-3 text-3xl font-bold">
+                <h5 className="mb-3 text-3xl font-bold text-[#111111]">
                   Affordable Daily
                 </h5>
 
-                <p className="leading-7 text-gray-400">
+                <p className="leading-7 text-gray-500">
                   Transportation costs are often dramatically lower compared to major U.S. cities.
                 </p>
               </div>
 
-              <div className="rounded-3xl border border-[#222] bg-black/40 p-6 transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]">
+              <div className="rounded-3xl border border-[#222] bg-white p-6 transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]">
                 <p className="mb-3 text-sm uppercase tracking-[0.2em] text-[#D4AF37]">
                   Coastal Lifestyle
                 </p>
 
-                <h5 className="mb-3 text-3xl font-bold">
+                <h5 className="mb-3 text-3xl font-bold text-[#111111]">
                   Diani & Mombasa
                 </h5>
 
-                <p className="leading-7 text-gray-400">
+                <p className="leading-7 text-gray-500">
                   Oceanfront experiences, resorts, beaches, and luxury escapes become more accessible.
                 </p>
               </div>
 
-              <div className="rounded-3xl border border-[#222] bg-black/40 p-6 transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]">
+              <div className="rounded-3xl border border-[#222] bg-white p-6 transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]">
                 <p className="mb-3 text-sm uppercase tracking-[0.2em] text-[#D4AF37]">
                   Dining & Experiences
                 </p>
 
-                <h5 className="mb-3 text-3xl font-bold">
+                <h5 className="mb-3 text-3xl font-bold text-[#111111]">
                   Elevated Living
                 </h5>
 
-                <p className="leading-7 text-gray-400">
+                <p className="leading-7 text-gray-500">
                   Enjoy restaurants, nightlife, safari experiences, cafés, and entertainment at lower costs.
                 </p>
               </div>
@@ -341,46 +412,46 @@ const handleSubmit = async (e: React.FormEvent) => {
 
           <div className="grid gap-8 lg:grid-cols-3">
 
-            <div className="rounded-[2rem] border border-[#1E1E1E] bg-[#111111] p-8 transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]">
+            <div className="rounded-[2rem] border border-[#1E1E1E] bg-white p-8 transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]">
               <p className="mb-4 text-sm uppercase tracking-[0.3em] text-[#D4AF37]">
                 Remote Workers
               </p>
 
-              <h4 className="mb-6 text-3xl font-bold">
+              <h4 className="mb-6 text-3xl font-bold text-[#111111]">
                 Keep Your USD Income
               </h4>
 
-              <p className="leading-8 text-gray-400">
+              <p className="leading-8 text-gray-500">
                 Many digital nomads and remote workers discover they can maintain a
                 higher quality lifestyle while working remotely abroad.
               </p>
             </div>
 
-            <div className="rounded-[2rem] border border-[#1E1E1E] bg-[#111111] p-8 transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]">
+            <div className="rounded-[2rem] border border-[#1E1E1E] bg-white p-8 transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]">
               <p className="mb-4 text-sm uppercase tracking-[0.3em] text-[#D4AF37]">
                 Families
               </p>
 
-              <h4 className="mb-6 text-3xl font-bold">
+              <h4 className="mb-6 text-3xl font-bold text-[#111111]">
                 Slower, Connected Living
               </h4>
 
-              <p className="leading-8 text-gray-400">
+              <p className="leading-8 text-gray-500">
                 Many families are drawn to stronger community culture, family-centered
                 lifestyles, and new educational opportunities abroad.
               </p>
             </div>
 
-            <div className="rounded-[2rem] border border-[#1E1E1E] bg-[#111111] p-8 transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]">
+            <div className="rounded-[2rem] border border-[#1E1E1E] bg-white p-8 transition duration-300 hover:-translate-y-2 hover:border-[#D4AF37]">
               <p className="mb-4 text-sm uppercase tracking-[0.3em] text-[#D4AF37]">
                 Entrepreneurs
               </p>
 
-              <h4 className="mb-6 text-3xl font-bold">
+              <h4 className="mb-6 text-3xl font-bold text-[#111111]">
                 Expanding Opportunity
               </h4>
 
-              <p className="leading-8 text-gray-400">
+              <p className="leading-8 text-gray-500">
                 Kenya continues to grow rapidly with expanding infrastructure,
                 international business, tourism, and innovation sectors.
               </p>
@@ -391,234 +462,395 @@ const handleSubmit = async (e: React.FormEvent) => {
         </div>
       </section>
 
-      <section
-        id="consultation"
-        className="bg-[#F8F6F2] px-6 py-24 md:px-12"
-      >
-        <div className="mx-auto grid max-w-7xl gap-16 lg:grid-cols-[1fr_1.2fr] items-start">
-          <div className="pt-8">
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-[#0E6B4B]">
-              Consultation Request
+      <section className="bg-[#111111] px-6 py-24 text-white md:px-12">
+        <div className="mx-auto max-w-7xl">
+
+          <div className="mb-20 text-center">
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-[#D4AF37]">
+              Relocation Journey
             </p>
 
-            <h3 className="mb-8 max-w-2xl text-5xl font-bold leading-[1.1] md:text-7xl">
-              Let’s Talk About Your Move To Kenya
+            <h3 className="mb-6 text-5xl font-bold md:text-6xl">
+              How We Help You Move To Kenya
             </h3>
 
-            <p className="max-w-xl text-xl leading-10 text-gray-600">
-              Whether you are exploring a fresh start, planning for your family, or
-              simply looking into your options abroad, we are here to guide you
-              through the early stages of your relocation journey.
+            <p className="mx-auto max-w-4xl text-xl leading-10 text-gray-300">
+              We meet with you throughout the relocation process as many times as needed,
+              helping guide you step-by-step toward your move to Kenya with clarity,
+              planning, and support.
             </p>
           </div>
 
-          <div className="rounded-[2rem] border border-gray-100 bg-white p-8 shadow-2xl lg:mt-6">
-            <div className="mb-8 grid gap-4 md:grid-cols-3">
-              <div className="rounded-2xl border border-gray-100 bg-[#F8F6F2] p-5">
-                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[#0E6B4B] text-lg font-bold text-white">
-                  1
-                </div>
-                <h4 className="mb-2 text-lg font-semibold">Submit Request</h4>
-                <p className="text-sm leading-6 text-gray-500">
-                  Tell us about your relocation goals and timeline.
-                </p>
+          <div className="space-y-10">
+
+            <div className="flex flex-col gap-8 rounded-[2rem] border border-[#222] bg-[#181818] p-10 lg:flex-row lg:items-center">
+              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#0E6B4B] text-3xl font-bold text-white">
+                1
               </div>
 
-              <div className="rounded-2xl border border-gray-100 bg-[#F8F6F2] p-5">
-                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[#C62828] text-lg font-bold text-white">
-                  2
-                </div>
-                <h4 className="mb-2 text-lg font-semibold">Consultation Call</h4>
-                <p className="text-sm leading-6 text-gray-500">
-                  Our team will contact you within 24 hours or less.
-                </p>
-              </div>
+              <div>
+                <h4 className="mb-4 text-3xl font-bold">
+                  Discovery Consultation
+                </h4>
 
-              <div className="rounded-2xl border border-gray-100 bg-[#F8F6F2] p-5">
-                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[#0E6B4B] text-lg font-bold text-white">
-                  3
-                </div>
-                <h4 className="mb-2 text-lg font-semibold">Begin Planning</h4>
-                <p className="text-sm leading-6 text-gray-500">
-                  Receive guidance and next steps for your move to Kenya.
+                <p className="text-lg leading-9 text-gray-300">
+                  We begin by understanding your goals, lifestyle preferences,
+                  budget, family needs, business interests, and long-term vision
+                  for relocating to Kenya.
                 </p>
               </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid gap-6 md:grid-cols-2">
-                <input
-                  type="text"
-                  name="first_name"
-                  value={formData.first_name}
-                  onChange={handleChange}
-                  placeholder="First Name"
-                  className="rounded-2xl border border-gray-200 bg-[#FAFAFA] px-5 py-4 outline-none transition focus:border-[#0E6B4B]"
-                />
-
-                <input
-                  type="text"
-                  name="last_name"
-                  value={formData.last_name}
-                  onChange={handleChange}
-                  placeholder="Last Name"
-                  className="rounded-2xl border border-gray-200 bg-[#FAFAFA] px-5 py-4 outline-none transition focus:border-[#0E6B4B]"
-                />
+            <div className="flex flex-col gap-8 rounded-[2rem] border border-[#222] bg-[#0E6B4B] p-10 lg:flex-row lg:items-center">
+              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-white text-3xl font-bold text-[#0E6B4B]">
+                2
               </div>
 
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Email Address"
-                className="w-full rounded-2xl border border-gray-200 bg-[#FAFAFA] px-5 py-4 outline-none transition focus:border-[#0E6B4B]"
-              />
+              <div>
+                <h4 className="mb-4 text-3xl font-bold text-white">
+                  Build Your Relocation Plan
+                </h4>
 
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="Phone Number"
-                className="w-full rounded-2xl border border-gray-200 bg-[#FAFAFA] px-5 py-4 outline-none transition focus:border-[#0E6B4B]"
-              />
-
-              <input
-                type="text"
-                name="location"
-                value={formData.location}
-                onChange={handleChange}
-                placeholder="Current State/Country"
-                className="w-full rounded-2xl border border-gray-200 bg-[#FAFAFA] px-5 py-4 outline-none transition focus:border-[#0E6B4B]"
-              />
-
-              <div className="grid gap-6 md:grid-cols-2">
-                <select
-                  name="passport_status"
-                  value={formData.passport_status}
-                  onChange={handleChange}
-                  className="w-full rounded-2xl border border-gray-200 bg-[#FAFAFA] px-5 py-4 outline-none transition focus:border-[#0E6B4B]"
-                >
-                  <option value="">Do You Have A Passport?</option>
-                  <option>Yes</option>
-                  <option>No</option>
-                  <option>In Progress</option>
-                </select>
-
-                <select
-                  name="move_timeline"
-                  value={formData.move_timeline}
-                  onChange={handleChange}
-                  className="w-full rounded-2xl border border-gray-200 bg-[#FAFAFA] px-5 py-4 outline-none transition focus:border-[#0E6B4B]"
-                >
-                  <option value="">How Soon Are You Looking To Move?</option>
-                  <option>0-3 Months</option>
-                  <option>3-6 Months</option>
-                  <option>6-12 Months</option>
-                  <option>1+ Year</option>
-                  <option>Just Researching</option>
-                </select>
-              </div>
-
-              <select
-                name="interest_type"
-                value={formData.interest_type}
-                onChange={handleChange}
-                className="w-full rounded-2xl border border-gray-200 bg-[#FAFAFA] px-5 py-4 outline-none transition focus:border-[#0E6B4B]"
-              >
-                <option value="">What Best Describes Your Interest?</option>
-                <option>Relocating Permanently</option>
-                <option>Exploring Options</option>
-                <option>Remote Work / Digital Nomad</option>
-                <option>Business / Investment</option>
-                <option>Vacation / Scouting Visit</option>
-              </select>
-
-              <select
-                name="moving_with"
-                value={formData.moving_with}
-                onChange={handleChange}
-                className="w-full rounded-2xl border border-gray-200 bg-[#FAFAFA] px-5 py-4 outline-none transition focus:border-[#0E6B4B]"
-              >
-                <option value="">Are You Moving Alone Or With Family?</option>
-                <option>Moving Alone</option>
-                <option>With Spouse</option>
-                <option>With Children</option>
-                <option>With Extended Family</option>
-              </select>
-
-              <textarea
-                name="questions"
-                value={formData.questions}
-                onChange={handleChange}
-                placeholder="What Questions Or Concerns Do You Have About Moving To Kenya?"
-                rows={5}
-                className="w-full rounded-2xl border border-gray-200 bg-[#FAFAFA] px-5 py-4 outline-none transition focus:border-[#0E6B4B]"
-              />
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full rounded-full bg-[#C62828] px-8 py-5 text-sm font-semibold tracking-wide text-white transition hover:bg-[#a61f1f]"
-              >
-                {loading ? "Submitting..." : "Request Consultation"}
-              </button>
-
-              {successMessage && (
-                <p className="text-center text-sm font-medium text-green-600">
-                  {successMessage}
+                <p className="text-lg leading-9 text-white/80">
+                  We discuss your ideal relocation timeline and determine whether
+                  you are interested in renting, purchasing a home or condo,
+                  securing land for future development, or investing in property opportunities.
                 </p>
-              )}
+              </div>
+            </div>
 
-              <p className="text-center text-sm leading-6 text-gray-500">
-                A member of our team will contact you within 24 hours or less
-                to schedule your Google Meet consultation.
+            <div className="flex flex-col gap-8 rounded-[2rem] border border-[#222] bg-[#181818] p-10 lg:flex-row lg:items-center">
+              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#C62828] text-3xl font-bold text-white">
+                3
+              </div>
+
+              <div>
+                <h4 className="mb-4 text-3xl font-bold">
+                  Documentation & Travel Preparation
+                </h4>
+
+                <p className="text-lg leading-9 text-gray-300">
+                  We help guide you through preparing for travel, including ETA/visa
+                  guidance, passport readiness, budgeting, housing preparation,
+                  transportation planning, and understanding what documents may be needed.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-8 rounded-[2rem] border border-[#222] bg-[#181818] p-10 lg:flex-row lg:items-center">
+              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#D4AF37] text-3xl font-bold text-black">
+                4
+              </div>
+
+              <div>
+                <h4 className="mb-4 text-3xl font-bold">
+                  Transition & Arrival
+                </h4>
+
+                <p className="text-lg leading-9 text-gray-300">
+                  As your move approaches, we continue helping you prepare for your transition,
+                  arrival experience, temporary accommodations if needed, transportation,
+                  and adjusting to life in Kenya.
+                </p>
+              </div>
+            </div>
+
+            <div className="rounded-[2rem] border border-[#0E6B4B] bg-gradient-to-r from-[#0E6B4B] to-[#063b29] p-12 text-center shadow-2xl">
+              <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-[#D4AF37]">
+                Final Step
               </p>
-            </form>
+
+              <h3 className="mb-6 text-5xl font-bold text-white">
+                You’re On Your Way To Kenya
+              </h3>
+
+              <p className="mx-auto max-w-3xl text-xl leading-10 text-white/80">
+                Whether you are preparing for a scouting trip, temporary relocation,
+                retirement abroad, business opportunities, or a permanent move —
+                our goal is to help make your transition smoother, clearer, and more organized.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="consultation"
+        className="relative overflow-hidden bg-gradient-to-br from-[#FFF9EE] via-white to-[#F5E7BE] px-6 py-28 md:px-12"
+      >
+        <div className="absolute left-[-120px] top-20 h-[320px] w-[320px] rounded-full bg-[#D4AF37]/20 blur-3xl" />
+        <div className="absolute bottom-[-100px] right-[-80px] h-[280px] w-[280px] rounded-full bg-[#C62828]/10 blur-3xl" />
+        <div className="mx-auto grid max-w-7xl gap-16 lg:grid-cols-[1fr_1.2fr] items-start">
+          <div className="pt-8">
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.35em] text-[#B88A28]">
+              Consultation Request
+            </p>
+
+            <h3 className="mb-8 max-w-2xl text-5xl font-bold leading-[1.05] text-[#111111] md:text-7xl">
+              Book Your Free Consultation
+            </h3>
+
+            <p className="max-w-xl text-xl leading-10 text-gray-600">
+              Schedule a free consultation to discuss your relocation goals, lifestyle interests, and next steps for moving to Kenya. Our team will guide you through the early planning process and help you understand what to expect.
+            </p>
+          </div>
+
+          <div className="relative overflow-hidden rounded-[2.5rem] border border-[#E7D6A8] bg-white/95 p-10 shadow-[0_25px_80px_rgba(0,0,0,0.12)] backdrop-blur-xl lg:mt-6">
+            <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-[#D4AF37]/10 blur-3xl" />
+            <div className="space-y-8">
+              <div className="grid gap-4 md:grid-cols-3">
+
+                <div className="rounded-3xl border border-gray-100 bg-gradient-to-br from-[#FFF8E7] to-white p-6 transition hover:-translate-y-2 hover:shadow-xl">
+                  <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[#0E6B4B] text-xl font-bold text-white">
+                    1
+                  </div>
+
+                  <h4 className="mb-3 text-2xl font-semibold text-[#111111]">
+                    Book Free Consultation
+                  </h4>
+
+                  <p className="leading-7 text-gray-600">
+                    Select your preferred date and time directly through our consultation booking calendar.
+                  </p>
+                </div>
+
+                <div className="rounded-3xl border border-gray-100 bg-gradient-to-br from-[#D4AF37] to-[#B88A28] p-6 text-white transition hover:-translate-y-2 hover:shadow-xl">
+                  <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[#C62828] text-xl font-bold text-white">
+                    2
+                  </div>
+
+                  <h4 className="mb-3 text-2xl font-semibold text-white">
+                    Receive Confirmation
+                  </h4>
+
+                  <p className="leading-7 text-white/90">
+                    We will send you a confirmation email with your consultation details and next steps.
+                  </p>
+                </div>
+
+                <div className="rounded-3xl border border-gray-100 bg-gradient-to-br from-[#111111] to-[#1D1D1D] p-6 text-white transition hover:-translate-y-2 hover:shadow-xl">
+                  <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-white text-xl font-bold text-[#D4AF37]">
+                    3
+                  </div>
+
+                  <h4 className="mb-3 text-2xl font-semibold text-white">
+                    Begin Planning
+                  </h4>
+
+                  <p className="leading-7 text-white/80">
+                    Prepare for your consultation and review our future pre-qualification page to understand what you may need before moving to Kenya.
+                  </p>
+                </div>
+
+              </div>
+
+              <div className="rounded-[2.5rem] border border-[#E8D6A4] bg-gradient-to-br from-[#FFFDF8] to-[#F9F1DA] p-12 text-center shadow-[0_25px_80px_rgba(0,0,0,0.10)]">
+
+                <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-[#D4AF37]">
+                  Free Relocation Consultation
+                </p>
+
+                <h3 className="mb-6 text-4xl font-bold text-[#111111] md:text-5xl">
+                  Ready To Explore Your Move To Kenya?
+                </h3>
+
+                <p className="mx-auto mb-10 max-w-3xl text-lg leading-9 text-gray-600">
+                  Book a free consultation and speak with our team about relocation guidance, lifestyle planning, remote work opportunities, and preparing for your transition abroad.
+                </p>
+
+                <a
+                  href="https://calendly.com/artejagrier-movetokenya/start-your-move-to-kenya"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#D4AF37] to-[#B88A28] px-12 py-5 text-sm font-semibold tracking-[0.15em] text-black shadow-xl transition duration-300 hover:scale-105"
+                >
+                  Book Your Free Consultation
+                </a>
+
+                <p className="mt-6 text-sm leading-7 text-gray-500">
+                  You will be able to choose your preferred day and time directly through our scheduling calendar.
+                </p>
+
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       <section
         id="why-kenya"
-        className="bg-white px-6 py-24 md:px-12"
+        className="relative overflow-hidden bg-[#F8F6F2] px-6 py-28 md:px-12"
       >
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-16 max-w-3xl">
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-[#0E6B4B]">
+        <div className="absolute left-[-120px] top-10 h-[280px] w-[280px] rounded-full bg-[#0E6B4B]/10 blur-3xl" />
+        <div className="absolute bottom-[-80px] right-[-80px] h-[260px] w-[260px] rounded-full bg-[#D4AF37]/20 blur-3xl" />
+
+        <div className="relative mx-auto max-w-7xl">
+
+          <div className="mb-20 max-w-4xl">
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.35em] text-[#B88A28]">
               Why Kenya
             </p>
 
-            <h3 className="mb-6 text-4xl font-bold md:text-5xl">
-              Explore New Possibilities Abroad
+            <h3 className="mb-8 text-5xl font-bold leading-tight text-[#111111] md:text-7xl">
+              A Different Pace Of Life.
+              <br />
+              A Different Kind Of Opportunity.
             </h3>
 
-            <p className="text-lg leading-8 text-gray-600">
-              Kenya offers a blend of culture, community, opportunity, modern
-              city life, and natural beauty that continues to attract people
-              seeking a fresh perspective and a slower, more connected way of
-              living.
+            <p className="max-w-3xl text-xl leading-10 text-gray-600">
+              Kenya continues to attract remote workers, entrepreneurs, retirees,
+              investors, families, and individuals seeking a lifestyle rooted in
+              community, modern convenience, natural beauty, and greater flexibility.
+              From luxury city living in Nairobi to peaceful coastal life in Diani,
+              Kenya offers experiences and opportunities that feel both refreshing and transformational.
             </p>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-            {[
-              "Community & Culture",
-              "Remote Work Lifestyle",
-              "Beautiful Landscapes",
-              "Entrepreneurial Opportunities",
-            ].map((item, index) => (
-              <div
-                key={index}
-                className="rounded-3xl border border-gray-100 bg-[#F8F6F2] p-8 transition hover:-translate-y-2 hover:shadow-xl"
-              >
-                <div className="mb-6 h-2 w-16 rounded-full bg-[#0E6B4B]" />
+          <div className="mb-20 grid gap-8 lg:grid-cols-3">
 
-                <h4 className="text-2xl font-semibold">{item}</h4>
+            <div className="rounded-[2.5rem] border border-[#E5E5E5] bg-white p-10 shadow-xl transition duration-300 hover:-translate-y-2 hover:shadow-2xl">
+              <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[#0E6B4B] text-2xl text-white">
+                🌍
               </div>
-            ))}
+
+              <h4 className="mb-6 text-3xl font-bold text-[#111111]">
+                Lower Cost Of Living
+              </h4>
+
+              <p className="leading-9 text-gray-600">
+                Many people relocating from the U.S. discover they can access more spacious housing,
+                dining, transportation, domestic assistance, and lifestyle experiences at significantly lower costs depending on location.
+              </p>
+            </div>
+
+            <div className="rounded-[2.5rem] border border-[#E5E5E5] bg-gradient-to-br from-[#111111] to-[#1A1A1A] p-10 text-white shadow-xl transition duration-300 hover:-translate-y-2 hover:shadow-2xl">
+              <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[#D4AF37] text-2xl text-black">
+                ✈️
+              </div>
+
+              <h4 className="mb-6 text-3xl font-bold">
+                International Lifestyle
+              </h4>
+
+              <p className="leading-9 text-gray-300">
+                Kenya offers modern malls, luxury apartments, resorts, airports,
+                restaurants, coworking spaces, and expanding infrastructure while still maintaining strong culture and community.
+              </p>
+            </div>
+
+            <div className="rounded-[2.5rem] border border-[#E5E5E5] bg-white p-10 shadow-xl transition duration-300 hover:-translate-y-2 hover:shadow-2xl">
+              <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[#C62828] text-2xl text-white">
+                🌴
+              </div>
+
+              <h4 className="mb-6 text-3xl font-bold text-[#111111]">
+                Coastal & Nature Living
+              </h4>
+
+              <p className="leading-9 text-gray-600">
+                From Diani Beach and Mombasa to safari destinations and mountain landscapes,
+                Kenya offers beautiful scenery, warm weather, wildlife, and unforgettable experiences year-round.
+              </p>
+            </div>
+
           </div>
+
+          <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
+
+            <div className="rounded-[2.5rem] border border-[#E5D4A4] bg-gradient-to-br from-[#FFFDF8] to-[#F7EFD6] p-12 shadow-2xl">
+
+              <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-[#B88A28]">
+                Remote Work & Entrepreneurship
+              </p>
+
+              <h4 className="mb-8 text-5xl font-bold leading-tight text-[#111111]">
+                Build While Living Better
+              </h4>
+
+              <p className="mb-8 text-xl leading-10 text-gray-700">
+                Many digital entrepreneurs, creators, consultants, and remote workers are exploring Kenya while continuing to work online internationally.
+                The combination of lower living expenses, growing infrastructure, and access to modern conveniences creates new possibilities for lifestyle and business.
+              </p>
+
+              <div className="grid gap-6 md:grid-cols-2">
+
+                <div className="rounded-3xl bg-white p-6 shadow-lg">
+                  <h5 className="mb-3 text-2xl font-bold text-[#111111]">
+                    Modern Infrastructure
+                  </h5>
+
+                  <p className="leading-8 text-gray-600">
+                    Kenya continues expanding with modern roads, shopping centers, banking systems, internet access, and growing business sectors.
+                  </p>
+                </div>
+
+                <div className="rounded-3xl bg-white p-6 shadow-lg">
+                  <h5 className="mb-3 text-2xl font-bold text-[#111111]">
+                    Flexible Lifestyle
+                  </h5>
+
+                  <p className="leading-8 text-gray-600">
+                    Many people enjoy slower living, greater flexibility, family-centered culture, and the ability to experience more while spending less.
+                  </p>
+                </div>
+
+              </div>
+            </div>
+
+            <div className="rounded-[2.5rem] bg-[#111111] p-12 text-white shadow-2xl">
+
+              <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-[#D4AF37]">
+                What People Love
+              </p>
+
+              <div className="space-y-8">
+
+                <div className="border-b border-white/10 pb-6">
+                  <h5 className="mb-3 text-2xl font-bold">
+                    Strong Community Culture
+                  </h5>
+
+                  <p className="leading-8 text-gray-400">
+                    Kenya is known for hospitality, community connection, and relationship-centered living.
+                  </p>
+                </div>
+
+                <div className="border-b border-white/10 pb-6">
+                  <h5 className="mb-3 text-2xl font-bold">
+                    Beautiful Weather
+                  </h5>
+
+                  <p className="leading-8 text-gray-400">
+                    Many areas of Kenya experience warm weather year-round with beautiful coastal and highland climates.
+                  </p>
+                </div>
+
+                <div className="border-b border-white/10 pb-6">
+                  <h5 className="mb-3 text-2xl font-bold">
+                    Modern + Cultural Balance
+                  </h5>
+
+                  <p className="leading-8 text-gray-400">
+                    Kenya blends modern convenience with strong traditions, creating a unique international experience.
+                  </p>
+                </div>
+
+                <div>
+                  <h5 className="mb-3 text-2xl font-bold">
+                    Adventure & Exploration
+                  </h5>
+
+                  <p className="leading-8 text-gray-400">
+                    Safaris, beaches, hiking, resorts, restaurants, nightlife, and travel opportunities create unforgettable experiences.
+                  </p>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
         </div>
       </section>
 
@@ -636,7 +868,7 @@ const handleSubmit = async (e: React.FormEvent) => {
         <div className="flex justify-center gap-6 text-sm text-gray-400">
           <a href="#">Privacy</a>
           <a href="#">Terms</a>
-          <a href="#">Contact</a>
+          <a href="/contact">Contact</a>
         </div>
       </footer>
     </main>
