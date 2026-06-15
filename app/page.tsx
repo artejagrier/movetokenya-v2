@@ -1,5 +1,7 @@
 "use client";
 
+import CookoutSection from "@/components/CookoutSection";
+import SiteHeader from "@/components/SiteHeader";
 import { useEffect, useState } from "react";
 
 const slides = [
@@ -167,9 +169,11 @@ const handleSubmit = async (e: React.FormEvent) => {
   }, []);
 
   return (
-    <main className="bg-white text-[#111111]">
+    <main className="overflow-x-hidden bg-white text-[#111111]">
+      <SiteHeader />
+
       {showCalendlySuccess && (
-        <div className="fixed right-6 top-28 z-[100] max-w-md rounded-[2rem] border border-[#D4AF37]/30 bg-white p-6 shadow-[0_25px_80px_rgba(0,0,0,0.18)] backdrop-blur-xl">
+        <div className="fixed left-4 right-4 top-32 z-[100] max-w-md rounded-[2rem] border border-[#D4AF37]/30 bg-white p-5 shadow-[0_25px_80px_rgba(0,0,0,0.18)] backdrop-blur-xl sm:left-auto sm:right-6 sm:top-36 sm:p-6">
           <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[#0E6B4B] text-2xl text-white">
             ✓
           </div>
@@ -184,7 +188,7 @@ const handleSubmit = async (e: React.FormEvent) => {
         </div>
       )}
       
-      <section className="relative h-screen overflow-hidden pt-24">
+      <section className="relative min-h-[calc(100svh-7.25rem)] overflow-hidden">
         {slides.map((slide, index) => (
           <div
             key={index}
@@ -196,88 +200,34 @@ const handleSubmit = async (e: React.FormEvent) => {
             <div className="absolute inset-0 bg-black/45" />
           </div>
         ))}
-        <nav className="fixed left-0 top-0 z-50 w-full px-6 py-6 md:px-12">
-          <div className="mx-auto flex max-w-7xl items-center justify-between rounded-full border border-white/10 bg-black/40 px-8 py-4 shadow-2xl backdrop-blur-xl">
 
-            <div className="flex items-center gap-4">
-
-
-              <div>
-                <h1 className="text-lg font-bold uppercase tracking-[0.25em] text-white md:text-xl">
-                  Move To Kenya
-                </h1>
-
-                <p className="hidden text-xs uppercase tracking-[0.25em] text-gray-400 md:block">
-                  Free Relocation Guidance & Support
-                </p>
-              </div>
-
-            </div>
-
-            <div className="hidden items-center gap-8 text-sm font-medium text-white lg:flex">
-
-              <a
-                href="/"
-                className="transition duration-300 hover:text-[#D4AF37]"
-              >
-                Home
-              </a>
-
-              <a
-                href="#why-kenya"
-                className="transition duration-300 hover:text-[#D4AF37]"
-              >
-                Why Kenya
-              </a>
-
-              <a
-                href="/contact"
-                className="transition duration-300 hover:text-[#D4AF37]"
-              >
-                Contact
-              </a>
-
-              <a
-                href="https://calendly.com/artejagrier-movetokenya/start-your-move-to-kenya"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full bg-gradient-to-r from-[#0E6B4B] to-[#063b29] px-6 py-3 text-sm font-semibold tracking-[0.08em] text-white shadow-lg transition duration-300 hover:scale-105 hover:shadow-2xl"
-              >
-                Book Free Consultation
-              </a>
-
-            </div>
-
-          </div>
-        </nav>
-
-        <div className="relative z-10 flex h-full items-center px-6 md:px-12">
+        <div className="relative z-10 flex min-h-[calc(100svh-7.25rem)] items-center px-4 py-16 sm:px-6 md:px-12">
           <div className="max-w-3xl text-white">
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-green-300">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-green-300 sm:mb-4 sm:text-sm sm:tracking-[0.3em]">
               Free Relocation Guidance & Support
             </p>
 
-            <h2 className="mb-6 text-5xl font-bold leading-tight md:text-7xl">
+            <h2 className="mb-4 text-3xl font-bold leading-tight sm:mb-6 sm:text-4xl md:text-5xl lg:text-7xl">
               {slides[currentSlide].title}
             </h2>
 
-            <p className="mb-8 max-w-2xl text-lg leading-8 text-gray-200 md:text-xl">
+            <p className="mb-6 max-w-2xl text-base leading-7 text-gray-200 sm:mb-8 sm:text-lg sm:leading-8 md:text-xl">
               {slides[currentSlide].subtitle}
             </p>
 
-            <div className="flex flex-col gap-4 sm:flex-row">
+            <div className="flex w-full max-w-md flex-col gap-3 sm:max-w-none sm:flex-row sm:gap-4">
               <a
                 href="https://calendly.com/artejagrier-movetokenya/start-your-move-to-kenya"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-full bg-[#0E6B4B] px-8 py-4 text-center text-sm font-semibold text-white transition hover:bg-[#0b573d]"
+                className="rounded-full bg-[#0E6B4B] px-6 py-3.5 text-center text-sm font-semibold text-white transition hover:bg-[#0b573d] sm:px-8 sm:py-4"
               >
                 Book Your Free Consultation
               </a>
 
               <a
                 href="#why-kenya"
-                className="rounded-full border border-white/50 px-8 py-4 text-center text-sm font-semibold text-white transition hover:bg-white hover:text-black"
+                className="rounded-full border border-white/50 px-6 py-3.5 text-center text-sm font-semibold text-white transition hover:bg-white hover:text-black sm:px-8 sm:py-4"
               >
                 Learn More
               </a>
@@ -285,38 +235,41 @@ const handleSubmit = async (e: React.FormEvent) => {
           </div>
         </div>
 
-        <div className="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 gap-3">
+        <div className="absolute bottom-6 left-1/2 z-20 flex max-w-[calc(100%-2rem)] -translate-x-1/2 flex-wrap justify-center gap-2 sm:bottom-8 sm:gap-3">
           {slides.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`h-3 w-3 rounded-full border transition-all duration-500 ${
+              aria-label={`Go to slide ${index + 1}`}
+              className={`h-2.5 w-2.5 shrink-0 rounded-full border transition-all duration-500 sm:h-3 sm:w-3 ${
                 currentSlide === index
                   ? index % 3 === 0
-                    ? "bg-[#0E6B4B] border-[#0E6B4B] w-10"
+                    ? "w-6 border-[#0E6B4B] bg-[#0E6B4B] sm:w-10"
                     : index % 3 === 1
-                    ? "bg-[#C62828] border-[#C62828] w-10"
-                    : "bg-black border-white w-10"
-                  : "bg-white/60 border-white/30"
+                      ? "w-6 border-[#C62828] bg-[#C62828] sm:w-10"
+                      : "w-6 border-white bg-black sm:w-10"
+                  : "border-white/30 bg-white/60"
               }`}
             />
           ))}
         </div>
       </section>
 
-      <section className="bg-white px-6 py-24 text-[#111111] md:px-12">
+      <CookoutSection />
+
+      <section className="bg-white px-4 py-16 text-[#111111] sm:px-6 md:px-12 md:py-24">
         <div className="mx-auto max-w-7xl">
 
-          <div className="mb-20 max-w-4xl">
+          <div className="mb-12 max-w-4xl md:mb-20">
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-[#D4AF37]">
               Luxury Living Potential
             </p>
 
-            <h3 className="mb-8 text-5xl font-bold leading-tight md:text-7xl">
+            <h3 className="mb-6 text-3xl font-bold leading-tight sm:text-4xl md:mb-8 md:text-5xl lg:text-7xl">
               Your USD Goes Further In Kenya
             </h3>
 
-            <p className="max-w-3xl text-xl leading-10 text-gray-600">
+            <p className="max-w-3xl text-base leading-8 text-gray-600 sm:text-lg md:text-xl md:leading-10">
               Many people are shocked when they realize how far remote income,
               retirement income, or U.S. dollars can stretch in Kenya. From luxury
               apartments and oceanfront living to private transportation, dining,
@@ -325,25 +278,25 @@ const handleSubmit = async (e: React.FormEvent) => {
             </p>
           </div>
 
-          <div className="mb-16 rounded-[2rem] border border-gray-200 bg-[#F8F6F2] p-10 shadow-2xl">
+          <div className="mb-12 rounded-[2rem] border border-gray-200 bg-[#F8F6F2] p-6 shadow-2xl sm:p-8 md:mb-16 md:p-10">
 
-            <div className="mb-10 flex flex-wrap items-center justify-between gap-6">
+            <div className="mb-8 flex flex-col gap-6 sm:mb-10 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
               <div>
                 <p className="mb-2 text-sm uppercase tracking-[0.3em] text-[#D4AF37]">
                   Live Currency Estimate
                 </p>
 
-                <h4 className="text-4xl font-bold">
+                <h4 className="text-2xl font-bold sm:text-3xl md:text-4xl">
                   $1,000 USD
                 </h4>
               </div>
 
-              <div className="text-right">
+              <div className="sm:text-right">
                 <p className="mb-2 text-sm uppercase tracking-[0.3em] text-[#D4AF37]">
                   Estimated Kenyan Value
                 </p>
 
-                <h4 className="text-5xl font-bold text-[#D4AF37]">
+                <h4 className="text-3xl font-bold text-[#D4AF37] sm:text-4xl md:text-5xl">
                   KSh 129,000+
                 </h4>
               </div>
@@ -462,19 +415,19 @@ const handleSubmit = async (e: React.FormEvent) => {
         </div>
       </section>
 
-      <section className="bg-[#111111] px-6 py-24 text-white md:px-12">
+      <section className="bg-[#111111] px-4 py-16 text-white sm:px-6 md:px-12 md:py-24">
         <div className="mx-auto max-w-7xl">
 
-          <div className="mb-20 text-center">
+          <div className="mb-12 text-center md:mb-20">
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-[#D4AF37]">
               Relocation Journey
             </p>
 
-            <h3 className="mb-6 text-5xl font-bold md:text-6xl">
+            <h3 className="mb-4 text-3xl font-bold sm:text-4xl md:mb-6 md:text-5xl lg:text-6xl">
               How We Help You Move To Kenya
             </h3>
 
-            <p className="mx-auto max-w-4xl text-xl leading-10 text-gray-300">
+            <p className="mx-auto max-w-4xl text-base leading-8 text-gray-300 sm:text-lg md:text-xl md:leading-10">
               We meet with you throughout the relocation process as many times as needed,
               helping guide you step-by-step toward your move to Kenya with clarity,
               planning, and support.
@@ -483,17 +436,17 @@ const handleSubmit = async (e: React.FormEvent) => {
 
           <div className="space-y-10">
 
-            <div className="flex flex-col gap-8 rounded-[2rem] border border-[#222] bg-[#181818] p-10 lg:flex-row lg:items-center">
-              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#0E6B4B] text-3xl font-bold text-white">
+            <div className="flex flex-col gap-6 rounded-[2rem] border border-[#222] bg-[#181818] p-6 sm:gap-8 sm:p-8 md:p-10 lg:flex-row lg:items-center">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[#0E6B4B] text-2xl font-bold text-white sm:h-20 sm:w-20 sm:text-3xl">
                 1
               </div>
 
               <div>
-                <h4 className="mb-4 text-3xl font-bold">
+                <h4 className="mb-3 text-2xl font-bold sm:mb-4 sm:text-3xl">
                   Discovery Consultation
                 </h4>
 
-                <p className="text-lg leading-9 text-gray-300">
+                <p className="text-base leading-8 text-gray-300 sm:text-lg sm:leading-9">
                   We begin by understanding your goals, lifestyle preferences,
                   budget, family needs, business interests, and long-term vision
                   for relocating to Kenya.
@@ -501,17 +454,17 @@ const handleSubmit = async (e: React.FormEvent) => {
               </div>
             </div>
 
-            <div className="flex flex-col gap-8 rounded-[2rem] border border-[#222] bg-[#0E6B4B] p-10 lg:flex-row lg:items-center">
-              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-white text-3xl font-bold text-[#0E6B4B]">
+            <div className="flex flex-col gap-6 rounded-[2rem] border border-[#222] bg-[#0E6B4B] p-6 sm:gap-8 sm:p-8 md:p-10 lg:flex-row lg:items-center">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-white text-2xl font-bold text-[#0E6B4B] sm:h-20 sm:w-20 sm:text-3xl">
                 2
               </div>
 
               <div>
-                <h4 className="mb-4 text-3xl font-bold text-white">
+                <h4 className="mb-3 text-2xl font-bold text-white sm:mb-4 sm:text-3xl">
                   Build Your Relocation Plan
                 </h4>
 
-                <p className="text-lg leading-9 text-white/80">
+                <p className="text-base leading-8 text-white/80 sm:text-lg sm:leading-9">
                   We discuss your ideal relocation timeline and determine whether
                   you are interested in renting, purchasing a home or condo,
                   securing land for future development, or investing in property opportunities.
@@ -519,17 +472,17 @@ const handleSubmit = async (e: React.FormEvent) => {
               </div>
             </div>
 
-            <div className="flex flex-col gap-8 rounded-[2rem] border border-[#222] bg-[#181818] p-10 lg:flex-row lg:items-center">
-              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#C62828] text-3xl font-bold text-white">
+            <div className="flex flex-col gap-6 rounded-[2rem] border border-[#222] bg-[#181818] p-6 sm:gap-8 sm:p-8 md:p-10 lg:flex-row lg:items-center">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[#C62828] text-2xl font-bold text-white sm:h-20 sm:w-20 sm:text-3xl">
                 3
               </div>
 
               <div>
-                <h4 className="mb-4 text-3xl font-bold">
+                <h4 className="mb-3 text-2xl font-bold sm:mb-4 sm:text-3xl">
                   Documentation & Travel Preparation
                 </h4>
 
-                <p className="text-lg leading-9 text-gray-300">
+                <p className="text-base leading-8 text-gray-300 sm:text-lg sm:leading-9">
                   We help guide you through preparing for travel, including ETA/visa
                   guidance, passport readiness, budgeting, housing preparation,
                   transportation planning, and understanding what documents may be needed.
@@ -537,17 +490,17 @@ const handleSubmit = async (e: React.FormEvent) => {
               </div>
             </div>
 
-            <div className="flex flex-col gap-8 rounded-[2rem] border border-[#222] bg-[#181818] p-10 lg:flex-row lg:items-center">
-              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#D4AF37] text-3xl font-bold text-black">
+            <div className="flex flex-col gap-6 rounded-[2rem] border border-[#222] bg-[#181818] p-6 sm:gap-8 sm:p-8 md:p-10 lg:flex-row lg:items-center">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[#D4AF37] text-2xl font-bold text-black sm:h-20 sm:w-20 sm:text-3xl">
                 4
               </div>
 
               <div>
-                <h4 className="mb-4 text-3xl font-bold">
+                <h4 className="mb-3 text-2xl font-bold sm:mb-4 sm:text-3xl">
                   Transition & Arrival
                 </h4>
 
-                <p className="text-lg leading-9 text-gray-300">
+                <p className="text-base leading-8 text-gray-300 sm:text-lg sm:leading-9">
                   As your move approaches, we continue helping you prepare for your transition,
                   arrival experience, temporary accommodations if needed, transportation,
                   and adjusting to life in Kenya.
@@ -555,16 +508,16 @@ const handleSubmit = async (e: React.FormEvent) => {
               </div>
             </div>
 
-            <div className="rounded-[2rem] border border-[#0E6B4B] bg-gradient-to-r from-[#0E6B4B] to-[#063b29] p-12 text-center shadow-2xl">
+            <div className="rounded-[2rem] border border-[#0E6B4B] bg-gradient-to-r from-[#0E6B4B] to-[#063b29] p-6 text-center shadow-2xl sm:p-8 md:p-12">
               <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-[#D4AF37]">
                 Final Step
               </p>
 
-              <h3 className="mb-6 text-5xl font-bold text-white">
+              <h3 className="mb-4 text-3xl font-bold text-white sm:mb-6 sm:text-4xl md:text-5xl">
                 You’re On Your Way To Kenya
               </h3>
 
-              <p className="mx-auto max-w-3xl text-xl leading-10 text-white/80">
+              <p className="mx-auto max-w-3xl text-base leading-8 text-white/80 sm:text-lg md:text-xl md:leading-10">
                 Whether you are preparing for a scouting trip, temporary relocation,
                 retirement abroad, business opportunities, or a permanent move —
                 our goal is to help make your transition smoother, clearer, and more organized.
@@ -577,29 +530,29 @@ const handleSubmit = async (e: React.FormEvent) => {
 
       <section
         id="consultation"
-        className="relative overflow-hidden bg-gradient-to-br from-[#FFF9EE] via-white to-[#F5E7BE] px-6 py-28 md:px-12"
+        className="relative overflow-hidden bg-gradient-to-br from-[#FFF9EE] via-white to-[#F5E7BE] px-4 py-16 sm:px-6 md:px-12 md:py-28"
       >
         <div className="absolute left-[-120px] top-20 h-[320px] w-[320px] rounded-full bg-[#D4AF37]/20 blur-3xl" />
         <div className="absolute bottom-[-100px] right-[-80px] h-[280px] w-[280px] rounded-full bg-[#C62828]/10 blur-3xl" />
-        <div className="mx-auto grid max-w-7xl gap-16 lg:grid-cols-[1fr_1.2fr] items-start">
-          <div className="pt-8">
+        <div className="mx-auto grid max-w-7xl items-start gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
+          <div className="pt-0 lg:pt-8">
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.35em] text-[#B88A28]">
               Consultation Request
             </p>
 
-            <h3 className="mb-8 max-w-2xl text-5xl font-bold leading-[1.05] text-[#111111] md:text-7xl">
+            <h3 className="mb-6 max-w-2xl text-3xl font-bold leading-[1.05] text-[#111111] sm:text-4xl md:mb-8 md:text-5xl lg:text-7xl">
               Book Your Free Consultation
             </h3>
 
-            <p className="max-w-xl text-xl leading-10 text-gray-600">
+            <p className="max-w-xl text-base leading-8 text-gray-600 sm:text-lg md:text-xl md:leading-10">
               Schedule a free consultation to discuss your relocation goals, lifestyle interests, and next steps for moving to Kenya. Our team will guide you through the early planning process and help you understand what to expect.
             </p>
           </div>
 
-          <div className="relative overflow-hidden rounded-[2.5rem] border border-[#E7D6A8] bg-white/95 p-10 shadow-[0_25px_80px_rgba(0,0,0,0.12)] backdrop-blur-xl lg:mt-6">
+          <div className="relative overflow-hidden rounded-[2.5rem] border border-[#E7D6A8] bg-white/95 p-5 shadow-[0_25px_80px_rgba(0,0,0,0.12)] backdrop-blur-xl sm:p-8 md:p-10 lg:mt-6">
             <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-[#D4AF37]/10 blur-3xl" />
-            <div className="space-y-8">
-              <div className="grid gap-4 md:grid-cols-3">
+            <div className="space-y-6 sm:space-y-8">
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 
                 <div className="rounded-3xl border border-gray-100 bg-gradient-to-br from-[#FFF8E7] to-white p-6 transition hover:-translate-y-2 hover:shadow-xl">
                   <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[#0E6B4B] text-xl font-bold text-white">
@@ -645,17 +598,17 @@ const handleSubmit = async (e: React.FormEvent) => {
 
               </div>
 
-              <div className="rounded-[2.5rem] border border-[#E8D6A4] bg-gradient-to-br from-[#FFFDF8] to-[#F9F1DA] p-12 text-center shadow-[0_25px_80px_rgba(0,0,0,0.10)]">
+              <div className="rounded-[2.5rem] border border-[#E8D6A4] bg-gradient-to-br from-[#FFFDF8] to-[#F9F1DA] p-6 text-center shadow-[0_25px_80px_rgba(0,0,0,0.10)] sm:p-8 md:p-12">
 
                 <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-[#D4AF37]">
                   Free Relocation Consultation
                 </p>
 
-                <h3 className="mb-6 text-4xl font-bold text-[#111111] md:text-5xl">
+                <h3 className="mb-4 text-2xl font-bold text-[#111111] sm:mb-6 sm:text-3xl md:text-4xl lg:text-5xl">
                   Ready To Explore Your Move To Kenya?
                 </h3>
 
-                <p className="mx-auto mb-10 max-w-3xl text-lg leading-9 text-gray-600">
+                <p className="mx-auto mb-8 max-w-3xl text-base leading-8 text-gray-600 sm:mb-10 sm:text-lg sm:leading-9">
                   Book a free consultation and speak with our team about relocation guidance, lifestyle planning, remote work opportunities, and preparing for your transition abroad.
                 </p>
 
@@ -663,7 +616,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                   href="https://calendly.com/artejagrier-movetokenya/start-your-move-to-kenya"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#D4AF37] to-[#B88A28] px-12 py-5 text-sm font-semibold tracking-[0.15em] text-black shadow-xl transition duration-300 hover:scale-105"
+                  className="inline-flex w-full max-w-full items-center justify-center rounded-full bg-gradient-to-r from-[#D4AF37] to-[#B88A28] px-6 py-4 text-sm font-semibold tracking-[0.15em] text-black shadow-xl transition duration-300 hover:scale-105 sm:w-auto sm:px-12 sm:py-5"
                 >
                   Book Your Free Consultation
                 </a>
@@ -680,25 +633,25 @@ const handleSubmit = async (e: React.FormEvent) => {
 
       <section
         id="why-kenya"
-        className="relative overflow-hidden bg-[#F8F6F2] px-6 py-28 md:px-12"
+        className="relative overflow-hidden bg-[#F8F6F2] px-4 py-16 sm:px-6 md:px-12 md:py-28"
       >
         <div className="absolute left-[-120px] top-10 h-[280px] w-[280px] rounded-full bg-[#0E6B4B]/10 blur-3xl" />
         <div className="absolute bottom-[-80px] right-[-80px] h-[260px] w-[260px] rounded-full bg-[#D4AF37]/20 blur-3xl" />
 
         <div className="relative mx-auto max-w-7xl">
 
-          <div className="mb-20 max-w-4xl">
+          <div className="mb-12 max-w-4xl md:mb-20">
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.35em] text-[#B88A28]">
               Why Kenya
             </p>
 
-            <h3 className="mb-8 text-5xl font-bold leading-tight text-[#111111] md:text-7xl">
+            <h3 className="mb-6 text-3xl font-bold leading-tight text-[#111111] sm:text-4xl md:mb-8 md:text-5xl lg:text-7xl">
               A Different Pace Of Life.
               <br />
               A Different Kind Of Opportunity.
             </h3>
 
-            <p className="max-w-3xl text-xl leading-10 text-gray-600">
+            <p className="max-w-3xl text-base leading-8 text-gray-600 sm:text-lg md:text-xl md:leading-10">
               Kenya continues to attract remote workers, entrepreneurs, retirees,
               investors, families, and individuals seeking a lifestyle rooted in
               community, modern convenience, natural beauty, and greater flexibility.
@@ -707,48 +660,48 @@ const handleSubmit = async (e: React.FormEvent) => {
             </p>
           </div>
 
-          <div className="mb-20 grid gap-8 lg:grid-cols-3">
+          <div className="mb-12 grid gap-6 md:mb-20 md:gap-8 lg:grid-cols-3">
 
-            <div className="rounded-[2.5rem] border border-[#E5E5E5] bg-white p-10 shadow-xl transition duration-300 hover:-translate-y-2 hover:shadow-2xl">
+            <div className="rounded-[2.5rem] border border-[#E5E5E5] bg-white p-6 shadow-xl transition duration-300 hover:-translate-y-2 hover:shadow-2xl sm:p-8 md:p-10">
               <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[#0E6B4B] text-2xl text-white">
                 🌍
               </div>
 
-              <h4 className="mb-6 text-3xl font-bold text-[#111111]">
+              <h4 className="mb-4 text-2xl font-bold text-[#111111] sm:mb-6 sm:text-3xl">
                 Lower Cost Of Living
               </h4>
 
-              <p className="leading-9 text-gray-600">
+              <p className="leading-8 text-gray-600 sm:leading-9">
                 Many people relocating from the U.S. discover they can access more spacious housing,
                 dining, transportation, domestic assistance, and lifestyle experiences at significantly lower costs depending on location.
               </p>
             </div>
 
-            <div className="rounded-[2.5rem] border border-[#E5E5E5] bg-gradient-to-br from-[#111111] to-[#1A1A1A] p-10 text-white shadow-xl transition duration-300 hover:-translate-y-2 hover:shadow-2xl">
+            <div className="rounded-[2.5rem] border border-[#E5E5E5] bg-gradient-to-br from-[#111111] to-[#1A1A1A] p-6 text-white shadow-xl transition duration-300 hover:-translate-y-2 hover:shadow-2xl sm:p-8 md:p-10">
               <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[#D4AF37] text-2xl text-black">
                 ✈️
               </div>
 
-              <h4 className="mb-6 text-3xl font-bold">
+              <h4 className="mb-4 text-2xl font-bold sm:mb-6 sm:text-3xl">
                 International Lifestyle
               </h4>
 
-              <p className="leading-9 text-gray-300">
+              <p className="leading-8 text-gray-300 sm:leading-9">
                 Kenya offers modern malls, luxury apartments, resorts, airports,
                 restaurants, coworking spaces, and expanding infrastructure while still maintaining strong culture and community.
               </p>
             </div>
 
-            <div className="rounded-[2.5rem] border border-[#E5E5E5] bg-white p-10 shadow-xl transition duration-300 hover:-translate-y-2 hover:shadow-2xl">
+            <div className="rounded-[2.5rem] border border-[#E5E5E5] bg-white p-6 shadow-xl transition duration-300 hover:-translate-y-2 hover:shadow-2xl sm:p-8 md:p-10">
               <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[#C62828] text-2xl text-white">
                 🌴
               </div>
 
-              <h4 className="mb-6 text-3xl font-bold text-[#111111]">
+              <h4 className="mb-4 text-2xl font-bold text-[#111111] sm:mb-6 sm:text-3xl">
                 Coastal & Nature Living
               </h4>
 
-              <p className="leading-9 text-gray-600">
+              <p className="leading-8 text-gray-600 sm:leading-9">
                 From Diani Beach and Mombasa to safari destinations and mountain landscapes,
                 Kenya offers beautiful scenery, warm weather, wildlife, and unforgettable experiences year-round.
               </p>
@@ -756,19 +709,19 @@ const handleSubmit = async (e: React.FormEvent) => {
 
           </div>
 
-          <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
+          <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:gap-10">
 
-            <div className="rounded-[2.5rem] border border-[#E5D4A4] bg-gradient-to-br from-[#FFFDF8] to-[#F7EFD6] p-12 shadow-2xl">
+            <div className="rounded-[2.5rem] border border-[#E5D4A4] bg-gradient-to-br from-[#FFFDF8] to-[#F7EFD6] p-6 shadow-2xl sm:p-8 md:p-12">
 
               <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-[#B88A28]">
                 Remote Work & Entrepreneurship
               </p>
 
-              <h4 className="mb-8 text-5xl font-bold leading-tight text-[#111111]">
+              <h4 className="mb-6 text-3xl font-bold leading-tight text-[#111111] sm:mb-8 sm:text-4xl md:text-5xl">
                 Build While Living Better
               </h4>
 
-              <p className="mb-8 text-xl leading-10 text-gray-700">
+              <p className="mb-6 text-base leading-8 text-gray-700 sm:mb-8 sm:text-lg md:text-xl md:leading-10">
                 Many digital entrepreneurs, creators, consultants, and remote workers are exploring Kenya while continuing to work online internationally.
                 The combination of lower living expenses, growing infrastructure, and access to modern conveniences creates new possibilities for lifestyle and business.
               </p>
@@ -798,7 +751,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               </div>
             </div>
 
-            <div className="rounded-[2.5rem] bg-[#111111] p-12 text-white shadow-2xl">
+            <div className="rounded-[2.5rem] bg-[#111111] p-6 text-white shadow-2xl sm:p-8 md:p-12">
 
               <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-[#D4AF37]">
                 What People Love
@@ -856,16 +809,16 @@ const handleSubmit = async (e: React.FormEvent) => {
 
       <footer
         id="contact"
-        className="bg-[#111111] px-6 py-12 text-center text-white md:px-12"
+        className="bg-[#111111] px-4 py-10 text-center text-white sm:px-6 md:px-12 md:py-12"
       >
-        <h4 className="mb-4 text-2xl font-bold">MoveToKenya.org</h4>
+        <h4 className="mb-4 text-xl font-bold sm:text-2xl">MoveToKenya.org</h4>
 
-        <p className="mb-6 text-gray-400">
+        <p className="mb-6 text-sm leading-7 text-gray-400 sm:text-base">
           Relocation guidance and consultation support for individuals and
           families preparing to move to Kenya.
         </p>
 
-        <div className="flex justify-center gap-6 text-sm text-gray-400">
+        <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-400 sm:gap-6">
           <a href="#">Privacy</a>
           <a href="#">Terms</a>
           <a href="/contact">Contact</a>
