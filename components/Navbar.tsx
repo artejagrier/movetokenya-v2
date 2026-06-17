@@ -14,7 +14,12 @@ export default function Navbar({ showAnnouncementOffset = false }: NavbarProps) 
   const pathname = usePathname();
   const isHome = pathname === "/";
 
-  const closeMobile = () => setMobileOpen(false);
+  const closeMobile = () => {
+    setMobileOpen(false);
+  };
+
+  const servicesHref = isHome ? "#consultation" : "/#consultation";
+  const eventsHref = isHome ? "#welcome-to-the-cookout" : "/#welcome-to-the-cookout";
 
   return (
     <nav
@@ -22,7 +27,8 @@ export default function Navbar({ showAnnouncementOffset = false }: NavbarProps) 
         showAnnouncementOffset ? "" : "sticky top-0 z-50"
       }`}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-2 sm:gap-4 sm:px-6 sm:py-2.5 md:px-12 md:py-3">
+      <div className="h-0.5 w-full bg-[#C8102E]" aria-hidden="true" />
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:gap-4 sm:px-6 sm:py-3.5 md:px-12">
         <Link
           href="/"
           className="flex min-w-0 max-w-[calc(100%-3rem)] items-center gap-2.5 sm:max-w-none sm:gap-3.5 md:gap-4"
@@ -41,28 +47,49 @@ export default function Navbar({ showAnnouncementOffset = false }: NavbarProps) 
           </span>
         </Link>
 
-        <div className="hidden items-center gap-8 text-sm font-medium text-[#111111] lg:flex">
-          <Link href="/" className="transition duration-300 hover:text-[#D4AF37]">
+        <div className="hidden items-center gap-6 text-sm font-medium text-[#111111] xl:gap-8 lg:flex">
+          <Link href="/" className="transition duration-300 hover:text-[#C8102E]">
             Home
           </Link>
 
           <a
             href={isHome ? "#why-kenya" : "/#why-kenya"}
-            className="transition duration-300 hover:text-[#D4AF37]"
+            className="transition duration-300 hover:text-[#C8102E]"
           >
             Why Kenya
           </a>
 
           <Link
             href="/about"
-            className="transition duration-300 hover:text-[#D4AF37]"
+            className="transition duration-300 hover:text-[#C8102E]"
           >
             About Us
           </Link>
 
+          <a
+            href={servicesHref}
+            className="transition duration-300 hover:text-[#C8102E]"
+          >
+            Services
+          </a>
+
+          <Link
+            href="/resources"
+            className="transition duration-300 hover:text-[#C8102E]"
+          >
+            Resources
+          </Link>
+
+          <a
+            href={eventsHref}
+            className="transition duration-300 hover:text-[#C8102E]"
+          >
+            Events
+          </a>
+
           <Link
             href="/contact"
-            className="transition duration-300 hover:text-[#D4AF37]"
+            className="transition duration-300 hover:text-[#C8102E]"
           >
             Contact
           </Link>
@@ -72,17 +99,17 @@ export default function Navbar({ showAnnouncementOffset = false }: NavbarProps) 
               href="https://calendly.com/artejagrier-movetokenya/start-your-move-to-kenya"
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full bg-gradient-to-r from-[#0E6B4B] to-[#063b29] px-6 py-3 text-sm font-semibold tracking-[0.08em] text-white transition duration-300 hover:bg-[#0b573d]"
+              className="btn-primary px-5 py-2.5 xl:px-6"
             >
               Book Free Consultation
             </a>
           ) : (
-            <a
+            <Link
               href="/#consultation"
-              className="rounded-full bg-gradient-to-r from-[#0E6B4B] to-[#063b29] px-6 py-3 text-sm font-semibold tracking-[0.08em] text-white transition duration-300 hover:bg-[#0b573d]"
+              className="btn-primary px-5 py-2.5 xl:px-6"
             >
               Book Free Consultation
-            </a>
+            </Link>
           )}
         </div>
 
@@ -124,7 +151,7 @@ export default function Navbar({ showAnnouncementOffset = false }: NavbarProps) 
           <div className="flex flex-col gap-4 text-sm font-medium text-[#111111]">
             <Link
               href="/"
-              className="transition duration-300 hover:text-[#D4AF37]"
+              className="transition duration-300 hover:text-[#C8102E]"
               onClick={closeMobile}
             >
               Home
@@ -132,7 +159,7 @@ export default function Navbar({ showAnnouncementOffset = false }: NavbarProps) 
 
             <a
               href={isHome ? "#why-kenya" : "/#why-kenya"}
-              className="transition duration-300 hover:text-[#D4AF37]"
+              className="transition duration-300 hover:text-[#C8102E]"
               onClick={closeMobile}
             >
               Why Kenya
@@ -140,15 +167,39 @@ export default function Navbar({ showAnnouncementOffset = false }: NavbarProps) 
 
             <Link
               href="/about"
-              className="transition duration-300 hover:text-[#D4AF37]"
+              className="transition duration-300 hover:text-[#C8102E]"
               onClick={closeMobile}
             >
               About Us
             </Link>
 
+            <a
+              href={servicesHref}
+              className="transition duration-300 hover:text-[#C8102E]"
+              onClick={closeMobile}
+            >
+              Services
+            </a>
+
+            <Link
+              href="/resources"
+              className="transition duration-300 hover:text-[#C8102E]"
+              onClick={closeMobile}
+            >
+              Resources
+            </Link>
+
+            <a
+              href={eventsHref}
+              className="transition duration-300 hover:text-[#C8102E]"
+              onClick={closeMobile}
+            >
+              Events
+            </a>
+
             <Link
               href="/contact"
-              className="transition duration-300 hover:text-[#D4AF37]"
+              className="transition duration-300 hover:text-[#C8102E]"
               onClick={closeMobile}
             >
               Contact
@@ -159,19 +210,19 @@ export default function Navbar({ showAnnouncementOffset = false }: NavbarProps) 
                 href="https://calendly.com/artejagrier-movetokenya/start-your-move-to-kenya"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-[#0E6B4B] to-[#063b29] px-6 py-3 text-sm font-semibold tracking-[0.08em] text-white transition duration-300 hover:bg-[#0b573d]"
+                className="btn-primary w-full"
                 onClick={closeMobile}
               >
                 Book Free Consultation
               </a>
             ) : (
-              <a
+              <Link
                 href="/#consultation"
-                className="inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-[#0E6B4B] to-[#063b29] px-6 py-3 text-sm font-semibold tracking-[0.08em] text-white transition duration-300 hover:bg-[#0b573d]"
+                className="btn-primary w-full"
                 onClick={closeMobile}
               >
                 Book Free Consultation
-              </a>
+              </Link>
             )}
           </div>
         </div>

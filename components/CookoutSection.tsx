@@ -27,6 +27,61 @@ const highlights = [
   "Weekly Guest Speakers",
 ];
 
+function CookoutLineAccent() {
+  return (
+    <svg
+      className="pointer-events-none absolute -left-[12%] -top-[8%] z-0 h-[116%] w-[124%] rotate-[18deg]"
+      viewBox="0 0 420 520"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path
+        d="M10 60 C90 20 180 80 260 40 S380 70 410 30"
+        stroke="#BB0000"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        opacity="0.22"
+      />
+      <path
+        d="M30 140 Q130 100 220 160 T390 120"
+        stroke="#006B3F"
+        strokeWidth="2"
+        strokeLinecap="round"
+        opacity="0.2"
+      />
+      <path
+        d="M50 240 C120 200 200 260 290 220 S370 250 400 210"
+        stroke="#000000"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        opacity="0.14"
+      />
+      <path
+        d="M20 340 Q110 300 200 360 T380 320"
+        stroke="#BB0000"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        opacity="0.18"
+      />
+      <path
+        d="M60 430 C150 390 240 450 330 410 S400 440 410 400"
+        stroke="#006B3F"
+        strokeWidth="2.25"
+        strokeLinecap="round"
+        opacity="0.16"
+      />
+      <path
+        d="M80 90 C160 130 240 70 320 110"
+        stroke="#000000"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+        opacity="0.12"
+      />
+    </svg>
+  );
+}
+
 export default function CookoutSection() {
   const [formData, setFormData] = useState({
     first_name: "",
@@ -37,9 +92,7 @@ export default function CookoutSection() {
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -79,15 +132,13 @@ export default function CookoutSection() {
   };
 
   return (
-    <section
-      id="welcome-to-the-cookout"
-      className="bg-white px-4 py-16 sm:px-6 sm:py-20 md:px-12 md:py-28"
-    >
+    <section id="welcome-to-the-cookout" className="flow-section flow-section--soft">
       <FadeIn>
         <div className="mx-auto max-w-7xl">
-          <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
-            <div className="flex justify-center lg:justify-start">
-              <div className="w-full max-w-lg overflow-hidden rounded-3xl shadow-[0_25px_60px_rgba(0,0,0,0.12)] transition duration-300 hover:shadow-[0_30px_70px_rgba(0,0,0,0.16)]">
+          <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-20">
+            <div className="relative flex justify-center lg:justify-start">
+              <CookoutLineAccent />
+              <div className="relative z-10 w-full max-w-lg shadow-[0_24px_64px_rgba(0,0,0,0.1)]">
                 <Image
                   src="/images/welcome-to-the-cookout-virtual-event.jpg"
                   alt="Welcome To The Cookout virtual event flyer"
@@ -99,37 +150,26 @@ export default function CookoutSection() {
             </div>
 
             <div>
-              <p className="mb-4 inline-block rounded-full bg-[#0E6B4B]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.25em] text-[#0E6B4B] sm:text-sm">
-                Free Weekly Virtual Event
-              </p>
-
-              <h2 className="mb-4 text-3xl font-bold leading-tight text-[#111111] sm:text-4xl md:text-5xl">
-                Welcome To The Cookout
-              </h2>
-
-              <p className="mb-6 text-lg font-medium leading-relaxed text-[#0E6B4B] sm:text-xl">
+              <p className="editorial-eyebrow mb-5">Free Weekly Virtual Event</p>
+              <h2 className="editorial-headline mb-6">Welcome To The Cookout</h2>
+              <p className="mb-8 text-lg font-medium leading-relaxed text-[#1a1a1a] sm:text-xl">
                 Your Weekly Gateway to Life, Opportunity, and Community in Kenya
               </p>
 
-              <div className="space-y-4 text-base leading-8 text-gray-600 sm:text-lg sm:leading-9">
-                <p>
-                  Thinking about moving to Kenya but not sure where to start?
-                </p>
-
+              <div className="space-y-4 text-base leading-8 text-[#6b6b6b] sm:text-lg sm:leading-9">
+                <p>Thinking about moving to Kenya but not sure where to start?</p>
                 <p>
                   Welcome To The Cookout is a free weekly virtual gathering
                   created for members of the African Diaspora, future expats,
                   entrepreneurs, investors, retirees, families, and anyone
                   curious about building a life in Kenya.
                 </p>
-
                 <p>
                   Every Saturday, we come together online to discuss the real
                   side of relocation — from visas, housing, schools, healthcare,
                   banking, transportation, business opportunities, and investment
                   strategies to everyday life on the ground in Kenya.
                 </p>
-
                 <p>
                   Whether you&apos;re planning a move next month, next year, or
                   simply exploring your options, this community gives you direct
@@ -138,43 +178,30 @@ export default function CookoutSection() {
                 </p>
               </div>
 
-              <div className="mt-8 flex w-full flex-col gap-3 sm:flex-row sm:gap-4">
+              <div className="mt-10 flex w-full flex-col gap-4 sm:flex-row">
                 <a
                   href={EVENTBRITE_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex w-full items-center justify-center rounded-full bg-[#0E6B4B] px-8 py-4 text-sm font-semibold text-white transition duration-300 hover:bg-[#0b573d] sm:w-auto"
+                  className="btn-primary sm:w-auto"
                 >
                   Register Free
                 </a>
-
-                <button
-                  type="button"
-                  onClick={scrollToDetails}
-                  className="inline-flex w-full items-center justify-center rounded-full border-2 border-[#0E6B4B] px-8 py-4 text-sm font-semibold text-[#0E6B4B] transition duration-300 hover:bg-[#0E6B4B] hover:text-white sm:w-auto"
-                >
+                <button type="button" onClick={scrollToDetails} className="btn-secondary sm:w-auto">
                   Learn More
                 </button>
               </div>
             </div>
           </div>
 
-          <div id="cookout-details" className="mt-16 scroll-mt-28 md:mt-24">
-            <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
+          <div id="cookout-details" className="mt-20 scroll-mt-28 md:mt-28">
+            <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
               <div>
-                <h3 className="mb-6 text-2xl font-bold text-[#111111] sm:text-3xl">
-                  What You&apos;ll Learn
-                </h3>
-
-                <ul className="grid gap-3 sm:grid-cols-2">
+                <h3 className="section-title mb-8">What You&apos;ll Learn</h3>
+                <ul className="grid gap-4 sm:grid-cols-2">
                   {learnItems.map((item) => (
-                    <li
-                      key={item}
-                      className="flex items-start gap-2 text-base leading-7 text-gray-600"
-                    >
-                      <span className="mt-0.5 shrink-0 font-bold text-[#0E6B4B]">
-                        ✓
-                      </span>
+                    <li key={item} className="flex items-start gap-3 text-base leading-7 text-[#6b6b6b]">
+                      <span className="mt-0.5 shrink-0 font-bold text-[#C8102E]">✓</span>
                       <span>{item}</span>
                     </li>
                   ))}
@@ -182,11 +209,8 @@ export default function CookoutSection() {
               </div>
 
               <div>
-                <h3 className="mb-6 text-2xl font-bold text-[#111111] sm:text-3xl">
-                  Why Attend?
-                </h3>
-
-                <div className="space-y-4 text-base leading-8 text-gray-600 sm:text-lg sm:leading-9">
+                <h3 className="section-title mb-8">Why Attend?</h3>
+                <div className="space-y-4 text-base leading-8 text-[#6b6b6b] sm:text-lg sm:leading-9">
                   <p>
                     Moving to another country is one of the biggest decisions
                     you&apos;ll ever make. Our goal is to make that journey
@@ -194,11 +218,7 @@ export default function CookoutSection() {
                     information, and a growing community of people who share the
                     same vision.
                   </p>
-
-                  <p>
-                    This isn&apos;t just another webinar.
-                  </p>
-
+                  <p>This isn&apos;t just another webinar.</p>
                   <p>
                     It&apos;s a movement of people exploring new opportunities,
                     building generational wealth, creating freedom, and
@@ -209,19 +229,13 @@ export default function CookoutSection() {
               </div>
             </div>
 
-            <div className="mt-12">
-              <h3 className="mb-6 text-2xl font-bold text-[#111111] sm:text-3xl">
-                Highlights
-              </h3>
-
+            <div className="mt-16">
+              <h3 className="section-title mb-8">Highlights</h3>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {highlights.map((item) => (
-                  <div
-                    key={item}
-                    className="rounded-2xl border border-gray-200 bg-[#F8F6F2] px-5 py-4 transition duration-300 hover:-translate-y-1 hover:border-[#0E6B4B]/30 hover:shadow-md"
-                  >
-                    <p className="font-semibold text-[#111111]">
-                      <span className="mr-2 text-[#0E6B4B]">✓</span>
+                  <div key={item} className="soft-card px-6 py-5">
+                    <p className="font-semibold text-[#1a1a1a]">
+                      <span className="mr-2 text-[#C8102E]">✓</span>
                       {item}
                     </p>
                   </div>
@@ -229,47 +243,29 @@ export default function CookoutSection() {
               </div>
             </div>
 
-            <div className="mt-12 rounded-3xl border border-[#0E6B4B]/20 bg-gradient-to-br from-[#F0FDF4] to-white p-6 shadow-lg sm:p-8 md:p-10">
-              <h3 className="mb-6 text-xl font-bold text-[#111111] sm:text-2xl">
-                Event Details
-              </h3>
-
+            <div className="mt-16 soft-card bg-[#fafafa] p-8 md:p-10">
+              <h3 className="mb-6 text-xl font-bold text-[#1a1a1a] sm:text-2xl">Event Details</h3>
               <div className="grid gap-4 sm:grid-cols-2">
-                <p className="text-base font-medium text-gray-700 sm:text-lg">
-                  📅 Every Saturday
-                </p>
-                <p className="text-base font-medium text-gray-700 sm:text-lg">
-                  🕐 1:00 PM EST
-                </p>
-                <p className="text-base font-medium text-gray-700 sm:text-lg">
-                  🌍 Live on Google Meet
-                </p>
-                <p className="text-base font-semibold text-[#0E6B4B] sm:text-lg">
-                  🎟️ The First Event Is FREE
-                </p>
+                <p className="text-base font-medium text-[#6b6b6b] sm:text-lg">📅 Every Saturday</p>
+                <p className="text-base font-medium text-[#6b6b6b] sm:text-lg">🕐 1:00 PM EST</p>
+                <p className="text-base font-medium text-[#6b6b6b] sm:text-lg">🌍 Live on Google Meet</p>
+                <p className="text-base font-semibold text-[#C8102E] sm:text-lg">🎟️ The First Event Is FREE</p>
               </div>
             </div>
           </div>
 
-          <div
-            id="cookout-register"
-            className="mt-16 scroll-mt-28 rounded-3xl border border-gray-200 bg-[#F8F6F2] p-6 shadow-xl sm:p-8 md:mt-20 md:p-10"
-          >
-            <p className="mb-2 text-sm font-semibold uppercase tracking-[0.3em] text-[#D4AF37]">
-              Free Registration
-            </p>
-
-            <h3 className="mb-2 text-2xl font-bold text-[#111111] sm:text-3xl">
+          <div id="cookout-register" className="mt-16 scroll-mt-28 soft-card bg-[#fafafa] p-8 md:mt-20 md:p-10">
+            <p className="editorial-eyebrow mb-2">Free Registration</p>
+            <h3 className="mb-2 text-2xl font-bold text-[#1a1a1a] sm:text-3xl">
               Register For Welcome To The Cookout
             </h3>
-
-            <p className="mb-8 text-base leading-8 text-gray-600">
+            <p className="mb-8 text-base leading-8 text-[#6b6b6b]">
               Reserve your spot for our free weekly virtual event. We will send
               your Google Meet link before each session.
             </p>
 
             {successMessage && (
-              <div className="mb-6 rounded-2xl border border-[#0E6B4B]/30 bg-[#0E6B4B]/10 p-4 text-[#0E6B4B]">
+              <div className="mb-6 rounded-2xl border border-[#C8102E]/20 bg-[#C8102E]/5 p-4 text-[#C8102E]">
                 {successMessage}
               </div>
             )}
@@ -283,9 +279,8 @@ export default function CookoutSection() {
                   required
                   value={formData.first_name}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-[#111111] outline-none transition focus:border-[#0E6B4B]"
+                  className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-[#1a1a1a] outline-none transition focus:border-[#C8102E] focus:ring-2 focus:ring-[#C8102E]/10"
                 />
-
                 <input
                   type="text"
                   name="last_name"
@@ -293,10 +288,9 @@ export default function CookoutSection() {
                   required
                   value={formData.last_name}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-[#111111] outline-none transition focus:border-[#0E6B4B]"
+                  className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-[#1a1a1a] outline-none transition focus:border-[#C8102E] focus:ring-2 focus:ring-[#C8102E]/10"
                 />
               </div>
-
               <input
                 type="email"
                 name="email"
@@ -304,23 +298,21 @@ export default function CookoutSection() {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-[#111111] outline-none transition focus:border-[#0E6B4B]"
+                className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-[#1a1a1a] outline-none transition focus:border-[#C8102E] focus:ring-2 focus:ring-[#C8102E]/10"
               />
-
               <input
                 type="tel"
                 name="phone"
                 placeholder="Phone Number (optional)"
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-[#111111] outline-none transition focus:border-[#0E6B4B]"
+                className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-[#1a1a1a] outline-none transition focus:border-[#C8102E] focus:ring-2 focus:ring-[#C8102E]/10"
               />
-
               <a
                 href={EVENTBRITE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-[#0E6B4B] to-[#063b29] px-8 py-4 text-sm font-semibold text-white transition duration-300 hover:bg-[#0b573d] sm:w-auto"
+                className="btn-primary sm:w-auto"
               >
                 Register Free
               </a>

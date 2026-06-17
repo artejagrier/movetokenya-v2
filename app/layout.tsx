@@ -22,8 +22,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://movetokenya.org"),
   title: {
     default: SITE_TITLE,
-    absolute: SITE_TITLE,
-    template: SITE_TITLE,
+    template: "%s",
   },
   description: SITE_DESCRIPTION,
   icons: {

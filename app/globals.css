@@ -2,32 +2,300 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1a1a1a;
+  --kenya-red: #c8102e;
+  --kenya-red-dark: #a00d26;
+  --kenya-red-soft: rgba(200, 16, 46, 0.08);
+  --kenya-charcoal: #1a1a1a;
+  --kenya-muted: #6b6b6b;
+  --kenya-gray: #f4f4f5;
+  --kenya-gray-soft: #fafafa;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-kenya-red: var(--kenya-red);
+  --color-kenya-red-dark: var(--kenya-red-dark);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  overflow-x: hidden;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
-  overflow-x: hidden;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
 }
 
-html {
-  overflow-x: hidden;
+/* ——— Typography ——— */
+.editorial-eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--kenya-red);
+}
+
+.editorial-headline {
+  font-size: clamp(2.25rem, 5vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--kenya-charcoal);
+}
+
+.editorial-headline.text-white,
+.editorial-headline.text-\[\#FFFFFF\] {
+  color: #ffffff;
+}
+
+.hero-guidance-emphasis {
+  background: none;
+  background-color: transparent;
+  backdrop-filter: none;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  font-size: clamp(0.8125rem, 2.2vw, 1.3125rem);
+  font-weight: 900;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #c8102e;
+  line-height: 1.35;
+}
+
+.editorial-subhead {
+  font-size: clamp(1.125rem, 2vw, 1.375rem);
+  line-height: 1.75;
+  color: var(--kenya-muted);
+}
+
+.editorial-subhead.text-white,
+.editorial-subhead.text-\[\#FFFFFF\] {
+  color: #ffffff;
+}
+
+/* White typography on dark / glass-dark surfaces */
+.dark-surface .editorial-subhead,
+.dark-surface .text-gray-300,
+.dark-surface .text-gray-400,
+.dark-surface .section-title:not(.text-\[\#C8102E\]) {
+  color: #ffffff;
+}
+
+.section-title {
+  font-size: clamp(1.875rem, 3.5vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--kenya-charcoal);
+}
+
+.section-title.text-white,
+.section-title.text-\[\#FFFFFF\] {
+  color: #ffffff;
+}
+
+.section-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--kenya-red);
+}
+
+/* ——— Flow sections (no hard boxes) ——— */
+.flow-section {
+  position: relative;
+  padding: clamp(4rem, 10vw, 8rem) clamp(1rem, 4vw, 3rem);
+}
+
+.flow-section--soft {
+  background: linear-gradient(180deg, #ffffff 0%, var(--kenya-gray-soft) 100%);
+}
+
+.flow-section--warm {
+  background: linear-gradient(135deg, #fffbfb 0%, #ffffff 50%, var(--kenya-gray-soft) 100%);
+}
+
+/* ——— Curved wave dividers ——— */
+.wave-divider {
+  display: block;
+  width: 100%;
+  line-height: 0;
+  overflow: hidden;
+}
+
+.wave-divider svg {
+  display: block;
+  width: calc(100% + 2px);
+  height: clamp(48px, 8vw, 80px);
+}
+
+/* ——— Buttons ——— */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: var(--kenya-red);
+  padding: 0.9375rem 2.125rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: #ffffff;
+  transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 4px 20px rgba(200, 16, 46, 0.22);
+}
+
+.btn-primary:hover {
+  background-color: var(--kenya-red-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 28px rgba(200, 16, 46, 0.28);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 1.5px solid currentColor;
+  background-color: transparent;
+  padding: 0.9375rem 2.125rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  transition: border-color 0.25s ease, color 0.25s ease, background-color 0.25s ease;
+}
+
+.btn-secondary:hover {
+  border-color: var(--kenya-red);
+  color: var(--kenya-red);
+}
+
+/* ——— Cards ——— */
+.soft-card {
+  border-radius: 1.5rem;
+  background: #ffffff;
+  box-shadow: 0 4px 40px rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.soft-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.08);
+}
+
+.glass-card {
+  border-radius: 1.75rem;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+}
+
+.magazine-card {
+  border-radius: 1.25rem;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.05);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.magazine-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.1);
+}
+
+/* ——— Organic shapes ——— */
+.blob-mask {
+  border-radius: 58% 42% 38% 62% / 48% 55% 45% 52%;
+  overflow: hidden;
+}
+
+.blob-mask-alt {
+  border-radius: 42% 58% 62% 38% / 52% 45% 55% 48%;
+  overflow: hidden;
+}
+
+.organic-blob {
+  position: absolute;
+  border-radius: 50% 40% 60% 45%;
+  filter: blur(80px);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* ——— Stats ——— */
+.stat-value {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--kenya-red);
+  letter-spacing: -0.02em;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--kenya-muted);
+}
+
+/* ——— Benefit list (no boxes) ——— */
+.benefit-item {
+  display: flex;
+  gap: 1.25rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.benefit-item:last-child {
+  border-bottom: none;
+}
+
+.benefit-icon {
+  display: flex;
+  height: 3rem;
+  width: 3rem;
+  shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: var(--kenya-red-soft);
+  font-size: 1.25rem;
+}
+
+/* ——— Legacy aliases ——— */
+.site-section {
+  position: relative;
+  padding: clamp(4rem, 10vw, 8rem) clamp(1rem, 4vw, 3rem);
+}
+
+.org-card {
+  border-radius: 1.5rem;
+  background: #ffffff;
+  box-shadow: 0 4px 40px rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.org-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.08);
+}
+
+.section-divider {
+  height: 3px;
+  width: 3.5rem;
+  border-radius: 9999px;
+  background: var(--kenya-red);
 }
 
 @keyframes marquee {
