@@ -80,6 +80,14 @@ export default function Navbar({ showAnnouncementOffset = false }: NavbarProps) 
             Resources
           </Link>
 
+          <Link
+            href="/royal-descendants-group-ltd"
+            className="transition duration-300 hover:text-[#C8102E]"
+          >
+            <span className="hidden xl:inline">Royal Descendants Group LTD</span>
+            <span className="xl:hidden">Royal Descendants</span>
+          </Link>
+
           <a
             href={eventsHref}
             className="transition duration-300 hover:text-[#C8102E]"
@@ -187,6 +195,14 @@ export default function Navbar({ showAnnouncementOffset = false }: NavbarProps) 
               onClick={closeMobile}
             >
               Resources
+            </Link>
+
+            <Link
+              href="/royal-descendants-group-ltd"
+              className="transition duration-300 hover:text-[#C8102E]"
+              onClick={closeMobile}
+            >
+              Royal Descendants Group LTD
             </Link>
 
             <a
