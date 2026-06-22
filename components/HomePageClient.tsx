@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import CookoutSection from "@/components/CookoutSection";
 import ConsultationSection from "@/components/ConsultationSection";
 import SiteFooter from "@/components/SiteFooter";
@@ -198,70 +199,86 @@ const handleSubmit = async (e: React.FormEvent) => {
         </div>
       )}
       
-      <section className="relative min-h-[calc(100svh-7.25rem)] overflow-hidden">
-        {slides.map((slide, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${
-              currentSlide === index ? "opacity-100" : "opacity-0"
-            }`}
-            style={{ backgroundImage: `url(${slide.image})` }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/20" />
-          </div>
-        ))}
-
-        <div className="relative z-10 flex min-h-[calc(100svh-7.25rem)] items-center px-4 py-20 sm:px-6 md:px-12 lg:py-28">
-          <div className="max-w-3xl text-white">
-            <p className="hero-guidance-emphasis mb-5">
-              Free Relocation Guidance & Support
+      <section className="bg-white py-12 sm:py-16 lg:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-4xl text-center">
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.32em] text-slate-700 sm:text-base">
+              MoveToKenya.org
             </p>
 
-            <h2 className="editorial-headline mb-6 text-white sm:mb-8">
+            <h1 className="mb-6 text-3xl font-semibold leading-tight text-slate-900 sm:text-4xl lg:text-5xl">
               {slides[currentSlide].title}
-            </h2>
+            </h1>
 
-            <p className="mb-10 max-w-2xl text-base leading-8 text-[#FFFFFF] sm:mb-12 sm:text-lg md:text-xl md:leading-9">
+            <p className="mx-auto mb-8 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
               {slides[currentSlide].subtitle}
             </p>
 
-            <div className="flex w-full max-w-md flex-col gap-4 sm:max-w-none sm:flex-row">
+            <p className="mx-auto mb-6 max-w-xl text-sm leading-6 text-slate-500 sm:text-base">
+              Book a free consultation or register your business interest today — clear guidance for your move to Kenya.
+            </p>
+
+            <div className="mx-auto flex max-w-md flex-col items-center justify-center gap-4 sm:flex-row">
               <a
                 href="https://calendly.com/artejagrier-movetokenya/start-your-move-to-kenya"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-primary text-center"
+                className="btn-primary w-full text-center sm:w-auto"
               >
-                Book Your Free Consultation
+                Start Your Move To Kenya (Free Consultation)
               </a>
 
               <a
-                href="#why-kenya"
-                className="btn-secondary border-white/70 text-white hover:border-white hover:bg-white hover:text-[#1a1a1a]"
+                href="https://docs.google.com/forms/d/e/1FAIpQLScIWIuEBG2eaa_jEgDcCDNlIyaq0a-imgeY7PcQRqrSmAuoNw/viewform?usp=publish-editor"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex w-full items-center justify-center rounded-full border border-transparent bg-[#15803D] px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#166534] sm:w-auto"
               >
-                Learn More
+                Diani Business Registration
               </a>
             </div>
           </div>
-        </div>
 
-        <div className="absolute bottom-8 left-1/2 z-20 flex max-w-[calc(100%-2rem)] -translate-x-1/2 flex-wrap justify-center gap-2 sm:bottom-10 sm:gap-3">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              aria-label={`Go to slide ${index + 1}`}
-              className={`h-2 w-2 shrink-0 rounded-full transition-all duration-500 sm:h-2.5 sm:w-2.5 ${
-                currentSlide === index
-                  ? "w-8 bg-[#C8102E] sm:w-10"
-                  : "bg-white/50 hover:bg-white/80"
-              }`}
-            />
-          ))}
-        </div>
+          <div className="mt-12 sm:mt-14">
+            <div className="overflow-hidden rounded-[32px] border border-slate-200 bg-slate-50 shadow-[0_20px_80px_rgba(15,23,42,0.08)]">
+              <div className="relative aspect-[16/9] min-h-[260px] sm:min-h-[320px]">
+                {slides.map((slide, index) => (
+                  <div
+                    key={index}
+                    className={`absolute inset-0 transition-opacity duration-700 ease-out ${
+                      currentSlide === index ? "opacity-100" : "opacity-0"
+                    }`}
+                  >
+                    <Image
+                      src={slide.image}
+                      alt={slide.title}
+                      fill
+                      priority={index === 0}
+                      sizes="100vw"
+                      className="object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
 
-        <div className="absolute bottom-0 left-0 right-0 z-10">
-          <WaveDivider fill="#ffffff" />
+              <div className="border-t border-slate-200 bg-white px-4 py-4 sm:px-6">
+                <div className="mx-auto flex w-full max-w-xs items-center justify-center gap-3">
+                  {slides.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentSlide(index)}
+                      aria-label={`Go to slide ${index + 1}`}
+                      className={`h-2.5 rounded-full transition-all duration-300 ${
+                        currentSlide === index
+                          ? "w-10 bg-[#C8102E]"
+                          : "w-2.5 bg-slate-300 hover:bg-slate-400"
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

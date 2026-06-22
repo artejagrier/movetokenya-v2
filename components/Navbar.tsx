@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { resourcesItems } from "@/lib/resources";
 
 type NavbarProps = {
   showAnnouncementOffset?: boolean;
@@ -11,11 +12,13 @@ type NavbarProps = {
 
 export default function Navbar({ showAnnouncementOffset = false }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [resourcesOpen, setResourcesOpen] = useState(false);
   const pathname = usePathname();
   const isHome = pathname === "/";
 
   const closeMobile = () => {
     setMobileOpen(false);
+    setResourcesOpen(false);
   };
 
   const servicesHref = isHome ? "#consultation" : "/#consultation";
@@ -73,11 +76,45 @@ export default function Navbar({ showAnnouncementOffset = false }: NavbarProps) 
             Services
           </a>
 
+          <div
+            className="group relative"
+            onMouseEnter={() => setResourcesOpen(true)}
+            onMouseLeave={() => setResourcesOpen(false)}
+          >
+            <button
+              type="button"
+              aria-haspopup="menu"
+              aria-expanded={resourcesOpen}
+              className="flex items-center gap-1 transition duration-300 hover:text-[#C8102E]"
+            >
+              Resources
+              <span className="text-xs">▾</span>
+            </button>
+
+            <div
+              className={`absolute left-0 top-full z-40 mt-3 w-[260px] rounded-3xl border border-[#F0F0F0] bg-white p-4 shadow-[0_18px_60px_rgba(17,17,17,0.08)] transition duration-200 ${
+                resourcesOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"
+              }`}
+            >
+              <div className="space-y-2">
+                {resourcesItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="block rounded-2xl px-3 py-2 text-sm text-[#1a1a1a] transition hover:bg-[#f8f3f2] hover:text-[#C8102E]"
+                  >
+                    {item.title}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+
           <Link
-            href="/resources"
+            href="/diani-business-registration"
             className="transition duration-300 hover:text-[#C8102E]"
           >
-            Resources
+            Diani Business Registration
           </Link>
 
           <Link
@@ -189,12 +226,36 @@ export default function Navbar({ showAnnouncementOffset = false }: NavbarProps) 
               Services
             </a>
 
+            <button
+              type="button"
+              onClick={() => setResourcesOpen((open) => !open)}
+              className="flex items-center justify-between rounded-2xl px-3 py-2 text-left transition duration-300 hover:bg-[#f8f3f2] hover:text-[#C8102E]"
+            >
+              <span>Resources</span>
+              <span className="text-sm">{resourcesOpen ? "▾" : "▸"}</span>
+            </button>
+
+            {resourcesOpen && (
+              <div className="space-y-2 rounded-3xl bg-[#fafafa] p-3">
+                {resourcesItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={closeMobile}
+                    className="block rounded-2xl px-3 py-2 text-sm transition hover:bg-white hover:text-[#C8102E]"
+                  >
+                    {item.title}
+                  </Link>
+                ))}
+              </div>
+            )}
+
             <Link
-              href="/resources"
+              href="/diani-business-registration"
               className="transition duration-300 hover:text-[#C8102E]"
               onClick={closeMobile}
             >
-              Resources
+              Diani Business Registration
             </Link>
 
             <Link

@@ -4,7 +4,7 @@ import SiteFooter from "@/components/SiteFooter";
 import Image from "next/image";
 
 const EVENTBRITE_URL =
-  "https://www.eventbrite.com/e/welcome-to-the-cookout-exploring-life-opportunities-in-kenya-tickets-1991870594568?aff=oddtdtcreator";
+  "https://www.eventbrite.com/e/welcome-to-the-cookout-tickets-1992351991439?aff=oddtdtcreator";
 
 const CALENDLY_URL =
   "https://calendly.com/artejagrier-movetokenya/start-your-move-to-kenya";
@@ -246,9 +246,7 @@ export default function AboutPage() {
               <h2 className="section-title mb-6">Welcome to the Cookout</h2>
 
               <p className="mx-auto mb-8 max-w-2xl text-base leading-8 text-gray-600 sm:text-lg sm:leading-9">
-                A free weekly virtual event where members of the African Diaspora
-                can connect, ask questions, learn about life in Kenya, and hear
-                real experiences from those already living abroad.
+                Welcome To The Cookout is now a recurring virtual gathering held every Saturday for people interested in relocating, investing, retiring, working remotely, purchasing property, building businesses, and exploring opportunities in Kenya.
               </p>
 
               <a
@@ -257,7 +255,7 @@ export default function AboutPage() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center btn-primary px-8 py-4 text-sm font-semibold text-white transition duration-300 "
               >
-                Register Free
+                REGISTER FREE
               </a>
             </div>
           </FadeIn>

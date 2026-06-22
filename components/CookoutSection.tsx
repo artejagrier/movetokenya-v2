@@ -2,10 +2,9 @@
 
 import FadeIn from "@/components/FadeIn";
 import Image from "next/image";
-import { useState } from "react";
 
 const EVENTBRITE_URL =
-  "https://www.eventbrite.com/e/welcome-to-the-cookout-exploring-life-opportunities-in-kenya-tickets-1991870594568?aff=oddtdtcreator";
+  "https://www.eventbrite.com/e/welcome-to-the-cookout-tickets-1992351991439?aff=oddtdtcreator";
 
 const learnItems = [
   "How to relocate to Kenya step-by-step",
@@ -83,54 +82,6 @@ function CookoutLineAccent() {
 }
 
 export default function CookoutSection() {
-  const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
-    email: "",
-    phone: "",
-  });
-  const [loading, setLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setSuccessMessage("");
-
-    try {
-      const response = await fetch("/api/cookout-registration", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Something went wrong.");
-      }
-
-      setSuccessMessage(
-        "You are registered! We will send your Google Meet details before the event."
-      );
-      setFormData({ first_name: "", last_name: "", email: "", phone: "" });
-    } catch {
-      alert("Something went wrong. Please try again or email artejagrier@movetokenya.org.");
-    }
-
-    setLoading(false);
-  };
-
-  const scrollToDetails = () => {
-    document
-      .getElementById("cookout-details")
-      ?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <section id="welcome-to-the-cookout" className="flow-section flow-section--soft">
       <FadeIn>
@@ -150,46 +101,37 @@ export default function CookoutSection() {
             </div>
 
             <div>
-              <p className="editorial-eyebrow mb-5">Free Weekly Virtual Event</p>
+              <p className="editorial-eyebrow mb-5">WEEKLY SATURDAY VIRTUAL EVENT</p>
               <h2 className="editorial-headline mb-6">Welcome To The Cookout</h2>
               <p className="mb-8 text-lg font-medium leading-relaxed text-[#1a1a1a] sm:text-xl">
-                Your Weekly Gateway to Life, Opportunity, and Community in Kenya
+                Welcome To The Cookout is now a recurring virtual gathering held every Saturday for people interested in relocating, investing, retiring, working remotely, purchasing property, building businesses, and exploring opportunities in Kenya.
               </p>
 
               <div className="space-y-4 text-base leading-8 text-[#6b6b6b] sm:text-lg sm:leading-9">
-                <p>Thinking about moving to Kenya but not sure where to start?</p>
-                <p>
-                  Welcome To The Cookout is a free weekly virtual gathering
-                  created for members of the African Diaspora, future expats,
-                  entrepreneurs, investors, retirees, families, and anyone
-                  curious about building a life in Kenya.
-                </p>
-                <p>
-                  Every Saturday, we come together online to discuss the real
-                  side of relocation — from visas, housing, schools, healthcare,
-                  banking, transportation, business opportunities, and investment
-                  strategies to everyday life on the ground in Kenya.
-                </p>
-                <p>
-                  Whether you&apos;re planning a move next month, next year, or
-                  simply exploring your options, this community gives you direct
-                  access to people who are already living, working, investing,
-                  and thriving in Kenya.
-                </p>
+                <p>Every Saturday.</p>
+                <p>Open worldwide.</p>
+                <p>First event is free.</p>
+                <p>Connect with the diaspora and learn about life, business, real estate, and opportunities in Kenya.</p>
+                <p>Network, build community, and discover the next steps for your Kenya journey.</p>
               </div>
 
-              <div className="mt-10 flex w-full flex-col gap-4 sm:flex-row">
+              <div className="mt-10 flex flex-col items-start gap-3">
                 <a
                   href={EVENTBRITE_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-primary sm:w-auto"
+                  className="btn-primary"
                 >
-                  Register Free
+                  REGISTER FREE
                 </a>
-                <button type="button" onClick={scrollToDetails} className="btn-secondary sm:w-auto">
-                  Learn More
-                </button>
+                <a
+                  href={EVENTBRITE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-medium text-[#C8102E] underline-offset-4 transition hover:underline"
+                >
+                  Reserve Your Free Ticket on Eventbrite
+                </a>
               </div>
             </div>
           </div>
@@ -248,75 +190,10 @@ export default function CookoutSection() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <p className="text-base font-medium text-[#6b6b6b] sm:text-lg">📅 Every Saturday</p>
                 <p className="text-base font-medium text-[#6b6b6b] sm:text-lg">🕐 1:00 PM EST</p>
-                <p className="text-base font-medium text-[#6b6b6b] sm:text-lg">🌍 Live on Google Meet</p>
+                <p className="text-base font-medium text-[#6b6b6b] sm:text-lg">🌍 Open worldwide on Google Meet</p>
                 <p className="text-base font-semibold text-[#C8102E] sm:text-lg">🎟️ The First Event Is FREE</p>
               </div>
             </div>
-          </div>
-
-          <div id="cookout-register" className="mt-16 scroll-mt-28 soft-card bg-[#fafafa] p-8 md:mt-20 md:p-10">
-            <p className="editorial-eyebrow mb-2">Free Registration</p>
-            <h3 className="mb-2 text-2xl font-bold text-[#1a1a1a] sm:text-3xl">
-              Register For Welcome To The Cookout
-            </h3>
-            <p className="mb-8 text-base leading-8 text-[#6b6b6b]">
-              Reserve your spot for our free weekly virtual event. We will send
-              your Google Meet link before each session.
-            </p>
-
-            {successMessage && (
-              <div className="mb-6 rounded-2xl border border-[#C8102E]/20 bg-[#C8102E]/5 p-4 text-[#C8102E]">
-                {successMessage}
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid gap-4 sm:grid-cols-2">
-                <input
-                  type="text"
-                  name="first_name"
-                  placeholder="First Name"
-                  required
-                  value={formData.first_name}
-                  onChange={handleChange}
-                  className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-[#1a1a1a] outline-none transition focus:border-[#C8102E] focus:ring-2 focus:ring-[#C8102E]/10"
-                />
-                <input
-                  type="text"
-                  name="last_name"
-                  placeholder="Last Name"
-                  required
-                  value={formData.last_name}
-                  onChange={handleChange}
-                  className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-[#1a1a1a] outline-none transition focus:border-[#C8102E] focus:ring-2 focus:ring-[#C8102E]/10"
-                />
-              </div>
-              <input
-                type="email"
-                name="email"
-                placeholder="Email Address"
-                required
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-[#1a1a1a] outline-none transition focus:border-[#C8102E] focus:ring-2 focus:ring-[#C8102E]/10"
-              />
-              <input
-                type="tel"
-                name="phone"
-                placeholder="Phone Number (optional)"
-                value={formData.phone}
-                onChange={handleChange}
-                className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-[#1a1a1a] outline-none transition focus:border-[#C8102E] focus:ring-2 focus:ring-[#C8102E]/10"
-              />
-              <a
-                href={EVENTBRITE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary sm:w-auto"
-              >
-                Register Free
-              </a>
-            </form>
           </div>
         </div>
       </FadeIn>
