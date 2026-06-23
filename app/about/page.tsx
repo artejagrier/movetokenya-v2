@@ -164,8 +164,8 @@ export default function AboutPage() {
               <div className="relative mx-auto w-full max-w-md lg:mx-0 lg:max-w-none">
                 <div className="blob-mask shadow-[0_24px_64px_rgba(0,0,0,0.12)]">
                   <Image
-                    src="/images/founder-arteja-grier.jpg"
-                    alt="Arteja Grier, Founder of MoveToKenya.org"
+                    src="/images/founder-tierney-reese.jpg"
+                    alt="Tierney Reese, Founder of MoveToKenya.org"
                     width={600}
                     height={750}
                     className="h-auto w-full object-cover"
@@ -177,29 +177,80 @@ export default function AboutPage() {
                 <p className="editorial-eyebrow mb-4">Leadership</p>
                 <h2 className="section-title mb-3">Meet the Founder</h2>
                 <p className="mb-1 text-xl font-bold text-[#1a1a1a] sm:text-2xl">
-                  Arteja Grier
+                  Tierney Reese
                 </p>
                 <p className="mb-8 text-base font-medium text-[#C8102E] sm:text-lg">
                   Founder, MoveToKenya.org
                 </p>
 
+
                 <div className="space-y-5 text-base leading-8 text-gray-600 sm:text-lg sm:leading-9">
                   <p>
-                    After relocating from the United States to Kenya, Arteja
-                    experienced firsthand both the excitement and the challenges
-                    that come with building a new life abroad.
+                    After relocating from the United States to Kenya, Tierney Reese experienced firsthand both the excitement and the challenges that come with building a new life abroad. What began as a personal journey quickly revealed a larger need: access to reliable information, trusted local connections, and practical guidance for individuals and families seeking opportunities beyond their country of origin.
                   </p>
-
                   <p>
-                    MoveToKenya.org was created to bridge the information gap for
-                    others considering a similar journey.
+                    Through her own experiences navigating relocation, housing, transportation, business development, community integration, and daily life in Kenya, Tierney recognized that many members of the African Diaspora were searching for the same answers. Too often, people were forced to rely on fragmented information, social media rumors, or outdated resources when making life-changing decisions about relocation, investment, retirement, or entrepreneurship abroad.
                   </p>
-
                   <p>
-                    Through community, education, networking opportunities,
-                    virtual events, and practical resources, the vision is to
-                    make relocation more accessible, transparent, and empowering
-                    for members of the African Diaspora.
+                    MoveToKenya.org was created to help bridge that gap by providing educational resources, community support, networking opportunities, and access to individuals and organizations actively contributing to Kenya’s growth and development. The platform serves as a starting point for those exploring life in Kenya while helping connect people to opportunities that align with their personal, professional, and financial goals.
+                  </p>
+                  <p>
+                    Under Tierney’s leadership, MoveToKenya.org has grown beyond a relocation resource into a broader ecosystem focused on community building, diaspora engagement, business development, investment awareness, and cultural connection. Through virtual events, educational content, strategic partnerships, consultations, and technology-driven initiatives, the organization seeks to empower individuals to make informed decisions while fostering meaningful relationships between the diaspora and communities throughout Kenya.
+                  </p>
+                  <p>
+                    Tierney’s vision is rooted in the belief that relocation is about more than changing locations—it’s about creating opportunities, building legacy, strengthening communities, and helping people access new possibilities for themselves and future generations. By connecting information with action and relationships with opportunity, MoveToKenya.org continues to serve as a bridge between curiosity and confidence for those considering Kenya as part of their future.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* CTO */}
+      <section className="bg-white px-4 py-16 sm:px-6 md:px-12 md:py-24">
+        <div className="mx-auto max-w-7xl">
+          <FadeIn>
+            <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+              <div className="relative mx-auto w-full max-w-md lg:mx-0 lg:max-w-none">
+                <div className="blob-mask shadow-[0_24px_64px_rgba(0,0,0,0.12)]">
+                  <Image
+                    src="/images/chief-technology-officer-arteja-grier.jpg"
+                    alt="Arteja Grier, Chief Technology Officer"
+                    width={600}
+                    height={750}
+                    className="h-auto w-full object-cover"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <p className="editorial-eyebrow mb-4">Leadership Team</p>
+                <h2 className="section-title mb-3">Meet the CTO</h2>
+
+                <p className="mb-1 text-xl font-bold text-[#1a1a1a] sm:text-2xl">
+                  Arteja Grier
+                </p>
+
+                <p className="mb-8 text-base font-medium text-[#C8102E] sm:text-lg">
+                  Chief Technology Officer (CTO)
+                </p>
+
+                <div className="space-y-5 text-base leading-8 text-gray-600 sm:text-lg sm:leading-9">
+                  <p>
+                    Arteja Grier leads technology strategy, platform development, digital infrastructure, and innovation initiatives across the organization’s growing ecosystem. As Chief Technology Officer, she is responsible for overseeing the vision, architecture, and implementation of the digital platforms that support community engagement, business development, relocation resources, and ecosystem growth.
+                  </p>
+                  <p>
+                    She oversees website development, web applications, software solutions, cloud technologies, cybersecurity planning, automation, user experience strategy, and digital systems that connect businesses, investors, entrepreneurs, community leaders, and members of the African Diaspora throughout Kenya and beyond. Her work focuses on creating scalable technology solutions that simplify access to information, strengthen collaboration, and support long-term economic and community development.
+                  </p>
+                  <p>
+                    Arteja has played a key role in the development of MoveToKenya.org, DianiLink, and other emerging technology-driven initiatives designed to bridge gaps between people, opportunities, and resources. Through strategic planning and modern technology solutions, she helps transform ideas into functional platforms that serve both local communities and international audiences.
+                  </p>
+                  <p>
+                    Her background spans digital systems design, platform architecture, cloud-based technologies, business process automation, cybersecurity awareness, and technology operations. By combining innovation with practical problem-solving, she helps ensure that every platform is built with sustainability, security, usability, and future growth in mind.
+                  </p>
+                  <p>
+                    Through technology, innovation, and scalable digital infrastructure, Arteja continues to help build the foundation for a connected ecosystem that supports relocation, investment, entrepreneurship, education, networking, and community development throughout Kenya and across the global diaspora.
                   </p>
                 </div>
               </div>
