@@ -16,12 +16,12 @@ export const resourcesItems: ResourceItem[] = [
     description: "Practical budgets and pricing for life in Kenya.",
   },
   {
-    title: "Retire In Kenya",
+    title: "Retire in Kenya",
     href: "/resources/retire-in-kenya",
     description: "Long-term living, permits, and lifestyle planning for retirees.",
   },
   {
-    title: "Digital Nomad Kenya",
+    title: "Digital Nomad Guide",
     href: "/resources/digital-nomad-kenya",
     description: "Remote work, visas, and living in Kenya while earning foreign income.",
   },
@@ -31,17 +31,17 @@ export const resourcesItems: ResourceItem[] = [
     description: "Schools, family support, and community life in Kenya.",
   },
   {
-    title: "Healthcare In Kenya",
+    title: "Healthcare in Kenya",
     href: "/resources/healthcare-in-kenya",
     description: "Medical care, insurance, and health planning for expats.",
   },
   {
-    title: "Moving Checklist",
+    title: "Ultimate Kenya Relocation Checklist",
     href: "/resources/moving-checklist",
     description: "Practical steps and timelines for a smooth move to Kenya.",
   },
   {
-    title: "FAQ",
+    title: "FAQs",
     href: "/resources/faq",
     description: "Answers to common Kenya relocation and lifestyle questions.",
   },
